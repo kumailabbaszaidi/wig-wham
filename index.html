@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WIG WHAM — 3D E-Commerce Marketplace &amp; Virtual Assistance Atelier</title>
+  <meta name="description" content="Wig Wham delivers specialist e-commerce marketplace execution across Amazon, Walmart, Etsy, and TikTok Shop alongside dependable day-to-day virtual assistance." />
+  <meta name="theme-color" content="#050507" />
+
+  <!-- Google Fonts: Archivo (Sans-Serif Display Headings) + Plus Jakarta Sans (Clean Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+  <!-- Top Scroll Progress, Subtle Cursor Dot & Floating Hover Image Follower -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+  <div class="hover-follower" id="hover-follower" aria-hidden="true">
+    <div class="hover-follower__frame">
+      <img src="assets/images/va-editorial-desk.jpg" alt="" id="hover-follower-img" />
+      <span class="hover-follower__tag" id="hover-follower-tag">01 / Admin Assistance</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       FIXED MINIMAL ARCHITECTURAL HEADER
+       ===================================================================== -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+
+      <!-- Left: Morphing Corner Menu Card -->
+      <div class="nav-morph" id="nav-morph">
+        <button type="button" class="nav-morph__btn" id="nav-morph-btn" aria-expanded="false" aria-controls="nav-morph-card">
+          <span class="nav-morph__dot"></span>
+          <span class="nav-morph__label" data-open="Navigate" data-close="Close">Navigate</span>
+          <span class="nav-morph__lines" aria-hidden="true">
+            <span></span><span></span>
+          </span>
+        </button>
+
+        <div class="nav-morph__card" id="nav-morph-card" aria-hidden="true">
+          <ul class="nav-morph__links">
+            <li><a href="#hero-reveal"><span>01</span><strong>Overview</strong><em>↗</em></a></li>
+            <li><a href="#manifesto-track"><span>02</span><strong>3D Vision Stage</strong><em>↗</em></a></li>
+            <li><a href="#pillars-stack"><span>03</span><strong>Core Pillars</strong><em>↗</em></a></li>
+            <li><a href="#marketplaces-split"><span>04</span><strong>Marketplaces &amp; VA</strong><em>↗</em></a></li>
+            <li><a href="#horizontal-showcase"><span>05</span><strong>3D Showcase</strong><em>↗</em></a></li>
+            <li><a href="#virtual-assistance"><span>06</span><strong>Virtual Assistance</strong><em>↗</em></a></li>
+            <li><a href="#process-road"><span>07</span><strong>Process</strong><em>↗</em></a></li>
+          </ul>
+          <div class="nav-morph__quick">
+            <a href="#mp-chap-0">Amazon</a>
+            <a href="#mp-chap-1">Walmart</a>
+            <a href="#mp-chap-2">Etsy</a>
+            <a href="#mp-chap-3">TikTok Shop</a>
+            <a href="#mp-chap-4">Virtual Assistance</a>
+          </div>
+          <a href="#contact" class="nav-morph__cta">Start Project →</a>
+        </div>
+      </div>
+
+      <!-- Center: Horizontal Logo + Navigation -->
+      <div class="header-center">
+        <a href="#portal-track" class="header-brand" aria-label="Wig Wham Home">
+          <img src="assets/images/wig-wham-logo-horizontal.png" alt="Wig Wham" />
+        </a>
+        <nav class="header-nav" aria-label="Primary Navigation">
+          <a href="#pillars-stack">Pillars</a>
+          <a href="#marketplaces-split">Marketplaces</a>
+          <a href="#horizontal-showcase">Showcase</a>
+          <a href="#virtual-assistance">Virtual Assistance</a>
+          <a href="#process-road">Process</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+
+      <!-- Right: Conic Shine CTA Button -->
+      <div class="header-right">
+        <a href="#contact" class="btn-atelier">
+          <span>Start Project</span>
+          <em>↗</em>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- =====================================================================
+         UNIFIED 3D SCROLLYTELLING SUPER-STAGE (SECTIONS 01 + 02 CONNECTED)
+         ===================================================================== -->
+    <div class="connected-3d-wrapper" id="connected-3d-wrapper">
+
+      <!-- FLOATING 3D TRAVELLING COMPANION (Glides & Docks into Right Side of Section 02 on scroll!) -->
+      <div class="travelling-3d-layer" id="travelling-3d-layer" aria-hidden="true">
+        <div class="travelling-3d-rig" id="travelling-3d-rig">
+          <div class="gyro-ring gyro-ring--outer"></div>
+          <div class="gyro-ring gyro-ring--inner"></div>
+
+          <!-- Real 6-Faced 3D CSS Preserve-3D Marketplace & VA Cube -->
+          <div class="cube-3d-scene">
+            <div class="cube-3d" id="cube-3d">
+              <div class="cube-face cube-face--front">
+                <img src="assets/images/mp-amazon-luxury.jpg" alt="" />
+                <div class="cube-face__glass">
+                  <img src="assets/images/wig-wham-tent-only.png" alt="" class="cube-face__tent" />
+                  <span>01 / AMAZON</span>
+                  <strong>Storefront &amp; A+</strong>
+                </div>
+              </div>
+              <div class="cube-face cube-face--right">
+                <img src="assets/images/mp-walmart-living.jpg" alt="" />
+                <div class="cube-face__glass">
+                  <span>02 / WALMART</span>
+                  <strong>Retail Spec Engine</strong>
+                </div>
+              </div>
+              <div class="cube-face cube-face--back">
+                <img src="assets/images/mp-etsy-artisan.jpg" alt="" />
+                <div class="cube-face__glass">
+                  <span>03 / ETSY</span>
+                  <strong>13-Tag Discovery</strong>
+                </div>
+              </div>
+              <div class="cube-face cube-face--left">
+                <img src="assets/images/mp-tiktok-viral.jpg" alt="" />
+                <div class="cube-face__glass">
+                  <span>04 / TIKTOK SHOP</span>
+                  <strong>9:16 Commerce</strong>
+                </div>
+              </div>
+              <div class="cube-face cube-face--top">
+                <img src="assets/images/mp-va-command.jpg" alt="" />
+                <div class="cube-face__glass">
+                  <span>05 / VIRTUAL ASSISTANCE</span>
+                  <strong>7 Daily Workflows</strong>
+                </div>
+              </div>
+              <div class="cube-face cube-face--bottom"></div>
+            </div>
+          </div>
+
+          <div class="orbit-badge orbit-badge--1">Amazon · Walmart</div>
+          <div class="orbit-badge orbit-badge--2">Etsy · TikTok Shop</div>
+          <div class="orbit-badge orbit-badge--3">05 Virtual Assistance</div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           PINNED SCROLL SECTION 01:
+           3D HOME PORTAL -> HERO REVEAL (WITH 5 CARDS INCLUDING VA!)
+           =================================================================== -->
+      <section class="portal-track" id="portal-track">
+        <div class="portal-sticky" id="portal-sticky">
+
+          <!-- LAYER A: FULL 3D HERO STAGE -->
+          <div class="hero-stage" id="hero-reveal">
+            <div class="swiss-grid-lines" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="hero-stage__glow" aria-hidden="true"></div>
+
+            <div class="container hero-stage__inner">
+              <div class="hero-stage__center">
+                <div class="hero-badge-pill">
+                  <span class="badge-dot"></span>
+                  <span>E-Commerce Marketplaces &amp; Virtual Assistance</span>
+                </div>
+
+                <h1 class="hero-display">
+                  <span class="hero-display__row">Built to Scale</span>
+                  <span class="hero-display__row">
+                    <span class="hero-circle-wrap">
+                      Modern Storefronts.
+                      <svg class="svg-loop" viewBox="0 0 400 110" fill="none" preserveAspectRatio="none" aria-hidden="true">
+                        <path d="M16 58C22 20 118 8 210 11C302 14 384 32 380 62C376 92 278 104 176 101C80 98 10 82 24 48" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                      </svg>
+                    </span>
+                  </span>
+                </h1>
+
+                <p class="hero-lead">
+                  Dedicated growth across <strong>Amazon</strong>, <strong>Walmart</strong>, <strong>Etsy</strong>, and <strong>TikTok Shop</strong> paired with reliable daily <strong>Virtual Assistance</strong>.
+                </p>
+              </div>
+
+              <!-- 5 Fanned Channel & VA Cards in Hero Bottom Strip -->
+              <div class="hero-cards-strip hero-cards-strip--five" id="hero-cards-strip">
+                <a href="#mp-chap-0" class="h-card h-card--1" data-tilt-3d>
+                  <div class="h-card__glare"></div>
+                  <div class="h-card__meta"><span>01 / Amazon</span><em>A+ &amp; Storefront</em></div>
+                  <div class="h-card__img"><img src="assets/images/amazon-headphones.jpg" alt="Amazon Marketplace" /></div>
+                  <div class="h-card__title">Storefront &amp; Variation Trees</div>
+                </a>
+                <a href="#mp-chap-1" class="h-card h-card--2" data-tilt-3d>
+                  <div class="h-card__glare"></div>
+                  <div class="h-card__meta"><span>02 / Walmart</span><em>Spec Quality</em></div>
+                  <div class="h-card__img"><img src="assets/images/walmart-home.jpg" alt="Walmart Marketplace" /></div>
+                  <div class="h-card__title">Catalog &amp; Listing Quality</div>
+                </a>
+                <a href="#mp-chap-2" class="h-card h-card--3" data-tilt-3d>
+                  <div class="h-card__glare"></div>
+                  <div class="h-card__meta"><span>03 / Etsy</span><em>13-Tag Search</em></div>
+                  <div class="h-card__img"><img src="assets/images/etsy-ceramics.jpg" alt="Etsy Marketplace" /></div>
+                  <div class="h-card__title">Artisanal Discovery &amp; SKUs</div>
+                </a>
+                <a href="#mp-chap-3" class="h-card h-card--4" data-tilt-3d>
+                  <div class="h-card__glare"></div>
+                  <div class="h-card__meta"><span>04 / TikTok Shop</span><em>9:16 Commerce</em></div>
+                  <div class="h-card__img"><img src="assets/images/tiktok-beauty.jpg" alt="TikTok Shop" /></div>
+                  <div class="h-card__title">Social Commerce &amp; Creator Sync</div>
+                </a>
+                <a href="#mp-chap-4" class="h-card h-card--5" data-tilt-3d>
+                  <div class="h-card__glare"></div>
+                  <div class="h-card__meta"><span>05 / Virtual Assistant</span><em>7 Workflows</em></div>
+                  <div class="h-card__img"><img src="assets/images/va-editorial-desk.jpg" alt="Virtual Assistance" /></div>
+                  <div class="h-card__title">Daily Admin, Data &amp; Store Ops</div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- LAYER B: RICH 3D HOME ENVIRONMENT + TENT GATE PORTAL -->
+          <div class="portal-overlay" id="portal-overlay">
+            <div class="portal-3d-floor" aria-hidden="true"></div>
+            <div class="portal-ambient-glow" aria-hidden="true"></div>
+
+            <div class="portal-bg-title" aria-hidden="true">
+              <span>WIG WHAM</span>
+              <small>MARKETPLACE &amp; VIRTUAL ASSISTANCE ATELIER</small>
+            </div>
+
+            <!-- 3D Orbital Track Rings & 5 Continuously Revolving Cards around the Tent -->
+            <div class="portal-orbit-ring portal-orbit-ring--outer" aria-hidden="true"></div>
+            <div class="portal-orbit-ring portal-orbit-ring--inner" aria-hidden="true"></div>
+
+            <div class="portal-flank" data-orbit-idx="0" aria-hidden="true">
+              <img src="assets/images/amazon-watch.jpg" alt="" />
+              <div>
+                <span>01 / AMAZON</span>
+                <strong>Brand Storefronts</strong>
+              </div>
+            </div>
+            <div class="portal-flank" data-orbit-idx="1" aria-hidden="true">
+              <img src="assets/images/walmart-appliance.jpg" alt="" />
+              <div>
+                <span>02 / WALMART</span>
+                <strong>Listing Quality</strong>
+              </div>
+            </div>
+            <div class="portal-flank" data-orbit-idx="2" aria-hidden="true">
+              <img src="assets/images/etsy-craft.jpg" alt="" />
+              <div>
+                <span>03 / ETSY</span>
+                <strong>13-Tag SEO</strong>
+              </div>
+            </div>
+            <div class="portal-flank" data-orbit-idx="3" aria-hidden="true">
+              <img src="assets/images/tiktok-sneaker.jpg" alt="" />
+              <div>
+                <span>04 / TIKTOK SHOP</span>
+                <strong>9:16 Velocity</strong>
+              </div>
+            </div>
+            <div class="portal-flank" data-orbit-idx="4" aria-hidden="true">
+              <img src="assets/images/va-workspace.jpg" alt="" />
+              <div>
+                <span>05 / VIRTUAL ASSISTANT</span>
+                <strong>Daily Operations</strong>
+              </div>
+            </div>
+
+            <!-- Center Tent Icon Zoom Rig -->
+            <div class="portal-zoom-rig" id="portal-zoom-rig">
+              <div class="portal-halo-ring" aria-hidden="true"></div>
+              <div class="portal-logo-box" id="portal-gate-btn" role="button" tabindex="0" aria-label="Scroll or click to zoom through gate">
+                <div class="portal-gate-glow" aria-hidden="true">
+                  <span class="gate-ring gate-ring--1"></span>
+                  <span class="gate-ring gate-ring--2"></span>
+                </div>
+                <img src="assets/images/wig-wham-tent-icon.png" alt="Wig Wham Tent Gate" class="portal-logo-img" />
+              </div>
+            </div>
+
+            <div class="portal-hud" id="portal-hud">
+              <button type="button" class="portal-scroll-cue" id="portal-scroll-cue">
+                <span class="portal-scroll-cue__mouse"><span></span></span>
+                <span>Scroll to experience in 3D</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           PINNED SCROLL SECTION 02:
+           "WE [LIVE IMAGE WINDOW] SCALE" + RIGHT-SIDE DOCKED 3D CUBE STAGE
+           =================================================================== -->
+      <section class="manifesto-track" id="manifesto-track">
+        <div class="manifesto-sticky">
+          <div class="container manifesto-split-layout">
+
+            <div class="manifesto-left">
+              <div class="we-window-row">
+                <span class="we-word">WE</span>
+                <div class="we-window" id="we-window">
+                  <img src="assets/images/amazon-watch.jpg" alt="Wig Wham Storefront Execution" />
+                  <div class="we-window__badge">4 CHANNELS + DAILY VA</div>
+                </div>
+                <span class="we-word we-word--accent">SCALE</span>
+              </div>
+
+              <p class="manifesto-copy" id="manifesto-copy">
+                Great products stall when marketplace listings and daily operations live in disconnected silos. Wig Wham unites four high-velocity marketplaces with structured virtual assistance under one roof.
+              </p>
+
+              <div class="manifesto-metrics">
+                <div class="m-stat">
+                  <strong>4 Marketplaces</strong>
+                  <span>Amazon · Walmart · Etsy · TikTok Shop</span>
+                </div>
+                <div class="m-stat">
+                  <strong>05 Virtual Assistant</strong>
+                  <span>7 Daily Operational Workflows</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="manifesto-right-dock" id="manifesto-right-dock" aria-hidden="true"></div>
+
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /#connected-3d-wrapper -->
+
+    <!-- Edge-Masked Infinite Marquee Strip -->
+    <div class="marquee-bar" aria-label="Core Capabilities">
+      <div class="marquee-bar__track">
+        <div class="marquee-bar__seq">
+          <span>AMAZON A+ ARCHITECTURE</span><i>✦</i>
+          <span>WALMART ITEM SPEC PRECISION</span><i>✦</i>
+          <span>ETSY STORYTELLING &amp; 13-TAG SEO</span><i>✦</i>
+          <span>TIKTOK SHOP 9:16 VELOCITY</span><i>✦</i>
+          <span>DEDICATED VIRTUAL ASSISTANCE</span><i>✦</i>
+          <span>CATALOG &amp; VARIATION MANAGEMENT</span><i>✦</i>
+        </div>
+        <div class="marquee-bar__seq" aria-hidden="true">
+          <span>AMAZON A+ ARCHITECTURE</span><i>✦</i>
+          <span>WALMART ITEM SPEC PRECISION</span><i>✦</i>
+          <span>ETSY STORYTELLING &amp; 13-TAG SEO</span><i>✦</i>
+          <span>TIKTOK SHOP 9:16 VELOCITY</span><i>✦</i>
+          <span>DEDICATED VIRTUAL ASSISTANCE</span><i>✦</i>
+          <span>CATALOG &amp; VARIATION MANAGEMENT</span><i>✦</i>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         SECTION 03 (REDESIGNED):
+         INTERACTIVE 3D DUAL-ENGINE COMMAND ARENA (LOOKS TOTALLY DISTINCT FROM SECTION 04!)
+         ===================================================================== -->
+    <section class="pillars-arena-section" id="pillars-stack">
+      <div class="container">
+
+        <div class="arena-top-bar">
+          <div class="section-header arena-header">
+            <h2 class="section-title">Two Core Engines. <span class="text-crimson">One 3D Ecosystem.</span></h2>
+            <p class="section-sub">Hover or select either engine below to inspect how marketplace execution and daily virtual assistance power your brand simultaneously.</p>
+          </div>
+
+          <div class="arena-controls-wrap">
+            <!-- 3D Synced Core Badge (Cleanly positioned in header bar so it never overlaps cards!) -->
+            <div class="arena-core-inline" aria-hidden="true">
+              <div class="arena-core-inline__orb">
+                <img src="assets/images/wig-wham-tent-only.png" alt="" />
+              </div>
+              <span>SYNCED 3D CORE</span>
+            </div>
+
+            <div class="arena-switcher" role="tablist" aria-label="Core Engines Switcher">
+              <button type="button" class="arena-tab is-active" data-arena-btn="0">01 / Marketplace Engine</button>
+              <button type="button" class="arena-tab" data-arena-btn="1">02 / Virtual Assistant Engine</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zero-Reflow GPU-Smooth 3D Dual-Monolith Grid -->
+        <div class="pillars-arena" id="pillars-arena">
+
+          <!-- LEFT MONOLITH: PILLAR 01 — E-COMMERCE MARKETPLACE SERVICES -->
+          <article class="arena-monolith arena-monolith--ecom is-expanded" data-arena-pane="0" data-smooth-card tabindex="0">
+            <div class="arena-monolith__glare" aria-hidden="true"></div>
+            <div class="arena-monolith__backdrop">
+              <img src="assets/images/pillar-ecom-studio.jpg" alt="E-Commerce Marketplace Merchandising" class="arena-bg-img" />
+              <div class="arena-monolith__scrim"></div>
+            </div>
+
+            <div class="arena-monolith__inner">
+              <div class="arena-monolith__head">
+                <span class="arena-pill">ENGINE 01 · 4 MARKETPLACES</span>
+                <span class="arena-live-dot"><i></i> Active Scale</span>
+              </div>
+
+              <!-- Top 3D Dual-Image Visual Banner inside Card 01 (Spacious, never squished!) -->
+              <div class="arena-3d-showcase">
+                <div class="arena-3d-card arena-3d-card--primary">
+                  <img src="assets/images/pillar-ecom-studio.jpg" alt="Crimson Product Merchandising" />
+                  <div class="arena-3d-card__badge">
+                    <strong>+4 Channels</strong>
+                    <span>Amazon · Walmart · Etsy · TikTok Shop</span>
+                  </div>
+                </div>
+                <div class="arena-3d-card arena-3d-card--secondary">
+                  <img src="assets/images/pillar-ecom-detail.jpg" alt="Studio Product Detail" />
+                  <span>A+ Visual Modules</span>
+                </div>
+              </div>
+
+              <div class="arena-monolith__copy">
+                <h3 class="arena-monolith__title">E-Commerce Marketplace Services</h3>
+                <p class="arena-monolith__desc">
+                  Full-funnel storefront architecture, search-indexed copywriting, parent-child variation trees, and conversion-focused visual merchandising engineered for all four major marketplaces.
+                </p>
+
+                <!-- 4 Interactive Channel Chips -->
+                <div class="arena-channel-grid">
+                  <a href="#mp-chap-0" class="arena-chip">
+                    <strong>01 Amazon</strong>
+                    <span>A+ &amp; Brand Storefronts</span>
+                  </a>
+                  <a href="#mp-chap-1" class="arena-chip">
+                    <strong>02 Walmart</strong>
+                    <span>Listing Quality &amp; Specs</span>
+                  </a>
+                  <a href="#mp-chap-2" class="arena-chip">
+                    <strong>03 Etsy</strong>
+                    <span>13-Tag SEO &amp; Story</span>
+                  </a>
+                  <a href="#mp-chap-3" class="arena-chip">
+                    <strong>04 TikTok Shop</strong>
+                    <span>9:16 Social Commerce</span>
+                  </a>
+                </div>
+
+                <div class="arena-monolith__cta">
+                  <a href="#marketplaces-split" class="btn-atelier">
+                    <span>Explore 4 Marketplaces</span>
+                    <em>↘</em>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- RIGHT MONOLITH: PILLAR 02 — VIRTUAL ASSISTANCE -->
+          <article class="arena-monolith arena-monolith--va" data-arena-pane="1" data-smooth-card tabindex="0">
+            <div class="arena-monolith__glare" aria-hidden="true"></div>
+            <div class="arena-monolith__backdrop">
+              <img src="assets/images/pillar-va-command.jpg" alt="Virtual Assistance Command" class="arena-bg-img" />
+              <div class="arena-monolith__scrim"></div>
+            </div>
+
+            <div class="arena-monolith__inner">
+              <div class="arena-monolith__head">
+                <span class="arena-pill arena-pill--gold">ENGINE 02 · 7 DAILY WORKFLOWS</span>
+                <span class="arena-live-dot"><i></i> Daily Execution</span>
+              </div>
+
+              <!-- Top 3D Dual-Image Visual Banner inside Card 02 (Spacious, never squished!) -->
+              <div class="arena-3d-showcase">
+                <div class="arena-3d-card arena-3d-card--primary">
+                  <img src="assets/images/pillar-va-command.jpg" alt="Dedicated Operations Desk" />
+                  <div class="arena-3d-card__badge">
+                    <strong>07 Workflows</strong>
+                    <span>Structured Daily Back-Office Execution</span>
+                  </div>
+                </div>
+                <div class="arena-3d-card arena-3d-card--secondary">
+                  <img src="assets/images/pillar-va-detail.jpg" alt="Live Data Analytics" />
+                  <span>Live SKU Tracking</span>
+                </div>
+              </div>
+
+              <div class="arena-monolith__copy">
+                <h3 class="arena-monolith__title">Dedicated Virtual Assistance</h3>
+                <p class="arena-monolith__desc">
+                  Dependable day-to-day operational execution across administrative coordination, clean data organization, market research, content uploading, and routine store upkeep.
+                </p>
+
+                <!-- Interactive Workflow Matrix -->
+                <div class="arena-channel-grid">
+                  <a href="#virtual-assistance" class="arena-chip">
+                    <strong>Admin &amp; Inbox</strong>
+                    <span>Daily Coordination</span>
+                  </a>
+                  <a href="#virtual-assistance" class="arena-chip">
+                    <strong>Data &amp; Catalogs</strong>
+                    <span>Spreadsheets &amp; SKUs</span>
+                  </a>
+                  <a href="#virtual-assistance" class="arena-chip">
+                    <strong>Market Research</strong>
+                    <span>Competitor &amp; Trend Logs</span>
+                  </a>
+                  <a href="#virtual-assistance" class="arena-chip">
+                    <strong>Listing Upkeep</strong>
+                    <span>Uploads &amp; Store Support</span>
+                  </a>
+                </div>
+
+                <div class="arena-monolith__cta">
+                  <a href="#virtual-assistance" class="btn-atelier">
+                    <span>Inspect 7 VA Workflows</span>
+                    <em>↘</em>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         PINNED SCROLL SECTION 04:
+         STICKY SPLIT-SCREEN 5 ENGINES (4 MARKETPLACES + 05 VIRTUAL ASSISTANCE)
+         WITH LIVE ANIMATED / VIDEO-STYLE BACKGROUND STAGE & 5 DISTINCT IMAGES!
+         ===================================================================== -->
+    <section class="mp-split-section" id="marketplaces-split">
+
+      <!-- STICKY ANIMATED BACKGROUND REEL & VIDEO MOTION LAYER (Fixes Image 2 empty black background!) -->
+      <div class="mp-ambient-bg" aria-hidden="true">
+        <div class="mp-ambient-bg__sticky">
+          <!-- Dynamic Crossfading Ken-Burns Background Reels synced to active chapter -->
+          <div class="mp-bg-reel is-active" data-bg-reel="0" style="background-image: url('assets/images/mp-amazon-luxury.jpg');"></div>
+          <div class="mp-bg-reel" data-bg-reel="1" style="background-image: url('assets/images/mp-walmart-living.jpg');"></div>
+          <div class="mp-bg-reel" data-bg-reel="2" style="background-image: url('assets/images/mp-etsy-artisan.jpg');"></div>
+          <div class="mp-bg-reel" data-bg-reel="3" style="background-image: url('assets/images/mp-tiktok-viral.jpg');"></div>
+          <div class="mp-bg-reel" data-bg-reel="4" style="background-image: url('assets/images/mp-va-command.jpg');"></div>
+
+          <!-- Animated Floating Light Beams & Moving 3D Mesh Grid -->
+          <div class="mp-bg-beams">
+            <span class="mp-beam mp-beam--1"></span>
+            <span class="mp-beam mp-beam--2"></span>
+            <span class="mp-beam mp-beam--3"></span>
+          </div>
+          <div class="mp-bg-grid"></div>
+          <div class="mp-bg-vignette"></div>
+        </div>
+      </div>
+
+      <div class="container mp-split-container">
+
+        <div class="section-header">
+          <h2 class="section-title">Marketplaces &amp; VA. <span class="text-crimson">Built to Convert.</span></h2>
+          <p class="section-sub">Tailored catalog architecture, search optimization, visual merchandising, and daily virtual assistance.</p>
+        </div>
+
+        <div class="mp-split-layout">
+
+          <!-- Left Scrolling Column: 5 Chapters (01 Amazon, 02 Walmart, 03 Etsy, 04 TikTok Shop, 05 Virtual Assistance) -->
+          <div class="mp-chapters-col">
+
+            <article class="mp-chapter is-active" id="mp-chap-0" data-mp-index="0">
+              <div class="mp-chapter__index">01</div>
+              <div class="mp-chapter__body">
+                <h3 class="mp-chapter__title">Amazon</h3>
+                <p class="mp-chapter__lead">
+                  Brand Storefronts, A+ content modules, parent-child variation families, and backend search-term indexing built for sustained organic rank.
+                </p>
+                <div class="mp-chapter__pills">
+                  <span>A+ Modules</span>
+                  <span>Brand Storefront</span>
+                  <span>Variation Trees</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="mp-chapter" id="mp-chap-1" data-mp-index="1">
+              <div class="mp-chapter__index">02</div>
+              <div class="mp-chapter__body">
+                <h3 class="mp-chapter__title">Walmart</h3>
+                <p class="mp-chapter__lead">
+                  Clean item spec onboarding, Listing Quality Score optimization, attribute mapping, and rich media sets engineered for Walmart Marketplace.
+                </p>
+                <div class="mp-chapter__pills">
+                  <span>Listing Quality Score</span>
+                  <span>Spec Mapping</span>
+                  <span>Rich Media</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="mp-chapter" id="mp-chap-2" data-mp-index="2">
+              <div class="mp-chapter__index">03</div>
+              <div class="mp-chapter__body">
+                <h3 class="mp-chapter__title">Etsy</h3>
+                <p class="mp-chapter__lead">
+                  13-tag search strategy, category attribute precision, cohesive shop sections, and story-driven product presentation for craft &amp; independent brands.
+                </p>
+                <div class="mp-chapter__pills">
+                  <span>13-Tag SEO</span>
+                  <span>Shop Merchandising</span>
+                  <span>SKU Variations</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="mp-chapter" id="mp-chap-3" data-mp-index="3">
+              <div class="mp-chapter__index">04</div>
+              <div class="mp-chapter__body">
+                <h3 class="mp-chapter__title">TikTok Shop</h3>
+                <p class="mp-chapter__lead">
+                  Thumb-stopping 9:16 mobile product cards, creator affiliate catalog setup, and rapid inventory sync designed for social discovery.
+                </p>
+                <div class="mp-chapter__pills">
+                  <span>9:16 Mobile Cards</span>
+                  <span>Creator Catalog</span>
+                  <span>Fast Sync</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 5TH CHAPTER: VIRTUAL ASSISTANCE -->
+            <article class="mp-chapter" id="mp-chap-4" data-mp-index="4">
+              <div class="mp-chapter__index">05</div>
+              <div class="mp-chapter__body">
+                <h3 class="mp-chapter__title">Virtual Assistance</h3>
+                <p class="mp-chapter__lead">
+                  Dedicated daily operational execution covering administrative coordination, data organization, market research, content uploading, and catalog upkeep.
+                </p>
+                <div class="mp-chapter__pills">
+                  <span>Admin &amp; Data</span>
+                  <span>Listing Upkeep</span>
+                  <span>7 Daily Workflows</span>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Right Sticky Column: Full-Height 5-Card Image Wipe Showcase (5 Distinct Curated Images!) -->
+          <div class="mp-sticky-col">
+            <div class="mp-wipe-stage" id="mp-wipe-stage" data-tilt-3d>
+
+              <!-- 01 Amazon -->
+              <div class="mp-wipe-card is-active" data-wipe-card="0">
+                <img src="assets/images/mp-amazon-luxury.jpg" alt="Amazon Storefront Execution" class="mp-wipe-card__img" />
+                <div class="mp-wipe-card__overlay">
+                  <div class="mp-wipe-card__top">
+                    <span class="mp-wipe-badge">01 / Amazon</span>
+                    <span class="mp-live-indicator"><i></i> Storefront Engine</span>
+                  </div>
+                  <div class="mp-wipe-card__bottom">
+                    <h4>Amazon Storefront &amp; A+ Architecture</h4>
+                    <p>Parent-child variations, keyword indexing, and high-converting visual modules.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 02 Walmart -->
+              <div class="mp-wipe-card" data-wipe-card="1">
+                <img src="assets/images/mp-walmart-living.jpg" alt="Walmart Marketplace Execution" class="mp-wipe-card__img" />
+                <div class="mp-wipe-card__overlay">
+                  <div class="mp-wipe-card__top">
+                    <span class="mp-wipe-badge">02 / Walmart</span>
+                    <span class="mp-live-indicator"><i></i> Spec Precision</span>
+                  </div>
+                  <div class="mp-wipe-card__bottom">
+                    <h4>Walmart Listing Quality &amp; Spec Engine</h4>
+                    <p>Compliant item spec sheets, taxonomy attributes, and retail-grade gallery packs.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 03 Etsy -->
+              <div class="mp-wipe-card" data-wipe-card="2">
+                <img src="assets/images/mp-etsy-artisan.jpg" alt="Etsy Shop Merchandising" class="mp-wipe-card__img" />
+                <div class="mp-wipe-card__overlay">
+                  <div class="mp-wipe-card__top">
+                    <span class="mp-wipe-badge">03 / Etsy</span>
+                    <span class="mp-live-indicator"><i></i> 13-Tag Matrix</span>
+                  </div>
+                  <div class="mp-wipe-card__bottom">
+                    <h4>Etsy 13-Tag Discovery &amp; Merchandising</h4>
+                    <p>Artisanal storytelling, complete 13-tag matrices, and structured variation pricing.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 04 TikTok Shop -->
+              <div class="mp-wipe-card" data-wipe-card="3">
+                <img src="assets/images/mp-tiktok-viral.jpg" alt="TikTok Shop Social Commerce" class="mp-wipe-card__img" />
+                <div class="mp-wipe-card__overlay">
+                  <div class="mp-wipe-card__top">
+                    <span class="mp-wipe-badge">04 / TikTok Shop</span>
+                    <span class="mp-live-indicator"><i></i> 9:16 Feed Sync</span>
+                  </div>
+                  <div class="mp-wipe-card__bottom">
+                    <h4>TikTok Shop 9:16 Social Commerce</h4>
+                    <p>Vertical-first product cards, creator sample catalogs, and campaign readiness.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 05 Virtual Assistance -->
+              <div class="mp-wipe-card" data-wipe-card="4">
+                <img src="assets/images/mp-va-command.jpg" alt="Virtual Assistance Command" class="mp-wipe-card__img" />
+                <div class="mp-wipe-card__overlay">
+                  <div class="mp-wipe-card__top">
+                    <span class="mp-wipe-badge">05 / Virtual Assistant</span>
+                    <span class="mp-live-indicator"><i></i> 7 Workflows</span>
+                  </div>
+                  <div class="mp-wipe-card__bottom">
+                    <h4>Dedicated Daily Virtual Assistance</h4>
+                    <p>Admin coordination, data entry, research, content uploads, and routine store tasks.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- 5 Quick Switcher Tabs -->
+            <div class="mp-quick-tabs mp-quick-tabs--five">
+              <a href="#mp-chap-0" class="mp-q-btn is-active" data-mp-tab="0">01 Amazon</a>
+              <a href="#mp-chap-1" class="mp-q-btn" data-mp-tab="1">02 Walmart</a>
+              <a href="#mp-chap-2" class="mp-q-btn" data-mp-tab="2">03 Etsy</a>
+              <a href="#mp-chap-3" class="mp-q-btn" data-mp-tab="3">04 TikTok Shop</a>
+              <a href="#mp-chap-4" class="mp-q-btn" data-mp-tab="4">05 Virtual Assistant</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         PINNED SCROLL SECTION 05:
+         BUTTER-SMOOTH 3D HORIZONTAL-SCROLL SHOWCASE (NEW IMAGES + LIVE HUD)
+         ===================================================================== -->
+    <section class="hscroll-track" id="horizontal-showcase">
+      <div class="hscroll-sticky">
+
+        <div class="hscroll-bg-words" id="hscroll-bg-words" aria-hidden="true">
+          AMAZON · WALMART · ETSY · TIKTOK SHOP · VIRTUAL ASSISTANCE
+        </div>
+
+        <div class="container hscroll-header">
+          <h2 class="section-title">3D Execution <span class="text-crimson">Showcase.</span></h2>
+          <div class="hscroll-progress-wrap">
+            <div class="hscroll-bar"><div class="hscroll-bar__fill" id="hscroll-bar-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="hscroll-strip" id="hscroll-strip">
+
+          <!-- Slide 01 -->
+          <article class="h-slide">
+            <div class="h-slide__card" data-smooth-card>
+              <div class="h-slide__glare"></div>
+              <div class="h-slide__img">
+                <img src="assets/images/hs-1-storefront.jpg" alt="Storefront Design" />
+                <span class="h-slide__tag">01 / Amazon</span>
+                <div class="h-slide__live-hud">
+                  <span class="hud-bars"><i></i><i></i><i></i><i></i></span>
+                  <span>A+ Modular Grid</span>
+                </div>
+              </div>
+              <div class="h-slide__body">
+                <div class="h-slide__top-row">
+                  <h3>Storefront Design</h3>
+                  <span class="h-slide__orb">↗</span>
+                </div>
+                <p>Modular brand stories and A+ layouts built to lift conversion.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Slide 02 -->
+          <article class="h-slide">
+            <div class="h-slide__card" data-smooth-card>
+              <div class="h-slide__glare"></div>
+              <div class="h-slide__img">
+                <img src="assets/images/hs-2-catalog.jpg" alt="Catalog Hierarchy" />
+                <span class="h-slide__tag">02 / Catalog</span>
+                <div class="h-slide__live-hud">
+                  <span class="hud-bars"><i></i><i></i><i></i><i></i></span>
+                  <span>Variation Tree Sync</span>
+                </div>
+              </div>
+              <div class="h-slide__body">
+                <div class="h-slide__top-row">
+                  <h3>Catalog Hierarchy</h3>
+                  <span class="h-slide__orb">↗</span>
+                </div>
+                <p>Clean parent-child variation trees across sizes, colors, and packs.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Slide 03 -->
+          <article class="h-slide">
+            <div class="h-slide__card" data-smooth-card>
+              <div class="h-slide__glare"></div>
+              <div class="h-slide__img">
+                <img src="assets/images/hs-3-retail.jpg" alt="Retail Spec Quality" />
+                <span class="h-slide__tag">03 / Walmart</span>
+                <div class="h-slide__live-hud">
+                  <span class="hud-bars"><i></i><i></i><i></i><i></i></span>
+                  <span>Listing Quality 99%</span>
+                </div>
+              </div>
+              <div class="h-slide__body">
+                <div class="h-slide__top-row">
+                  <h3>Retail Spec Quality</h3>
+                  <span class="h-slide__orb">↗</span>
+                </div>
+                <p>Complete attribute mapping and rich media sets for retail scale.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Slide 04 -->
+          <article class="h-slide">
+            <div class="h-slide__card" data-smooth-card>
+              <div class="h-slide__glare"></div>
+              <div class="h-slide__img">
+                <img src="assets/images/hs-4-search.jpg" alt="Search Indexing" />
+                <span class="h-slide__tag">04 / Etsy</span>
+                <div class="h-slide__live-hud">
+                  <span class="hud-bars"><i></i><i></i><i></i><i></i></span>
+                  <span>13-Tag Discovery</span>
+                </div>
+              </div>
+              <div class="h-slide__body">
+                <div class="h-slide__top-row">
+                  <h3>Search Indexing</h3>
+                  <span class="h-slide__orb">↗</span>
+                </div>
+                <p>Keyword-backed titles, attributes, and 13-tag discovery matrices.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Slide 05 -->
+          <article class="h-slide">
+            <div class="h-slide__card" data-smooth-card>
+              <div class="h-slide__glare"></div>
+              <div class="h-slide__img">
+                <img src="assets/images/hs-5-social.jpg" alt="Social Commerce" />
+                <span class="h-slide__tag">05 / TikTok Shop</span>
+                <div class="h-slide__live-hud">
+                  <span class="hud-bars"><i></i><i></i><i></i><i></i></span>
+                  <span>9:16 Feed Velocity</span>
+                </div>
+              </div>
+              <div class="h-slide__body">
+                <div class="h-slide__top-row">
+                  <h3>Social Commerce</h3>
+                  <span class="h-slide__orb">↗</span>
+                </div>
+                <p>Mobile-first TikTok Shop product cards built for rapid checkout.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Slide 06 -->
+          <article class="h-slide">
+            <div class="h-slide__card" data-smooth-card>
+              <div class="h-slide__glare"></div>
+              <div class="h-slide__img">
+                <img src="assets/images/hs-6-operations.jpg" alt="Daily Operations" />
+                <span class="h-slide__tag">06 / Virtual Assistant</span>
+                <div class="h-slide__live-hud">
+                  <span class="hud-bars"><i></i><i></i><i></i><i></i></span>
+                  <span>7 Daily Workflows</span>
+                </div>
+              </div>
+              <div class="h-slide__body">
+                <div class="h-slide__top-row">
+                  <h3>Daily Operations</h3>
+                  <span class="h-slide__orb">↗</span>
+                </div>
+                <p>Structured virtual assistance keeping catalogs and admin on schedule.</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 06: VIRTUAL ASSISTANCE [07 INTERACTIVE ROWS + HOVER FOLLOWER]
+         ===================================================================== -->
+    <section class="va-section" id="virtual-assistance">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">Dependable Daily <span class="text-crimson">Virtual Assistance.</span></h2>
+          <p class="section-sub">Seven structured operational workflows that keep your business organized every day.</p>
+        </div>
+
+        <div class="va-interactive-list" id="va-list">
+
+          <div class="va-item is-open" tabindex="0" data-img="assets/images/va-editorial-desk.jpg" data-tag="01 / Admin Assistance">
+            <div class="va-item__row">
+              <span class="va-item__num">01</span>
+              <h3 class="va-item__title">Administrative Assistance</h3>
+              <span class="va-item__toggle">–</span>
+            </div>
+            <div class="va-item__drawer">
+              <p>Inbox management, calendar coordination, document preparation, and structured daily follow-ups.</p>
+            </div>
+          </div>
+
+          <div class="va-item" tabindex="0" data-img="assets/images/va-workspace.jpg" data-tag="02 / Data Organization">
+            <div class="va-item__row">
+              <span class="va-item__num">02</span>
+              <h3 class="va-item__title">Data Entry and Organization</h3>
+              <span class="va-item__toggle">+</span>
+            </div>
+            <div class="va-item__drawer">
+              <p>Clean spreadsheets, SKU trackers, inventory logs, and structured cloud folders.</p>
+            </div>
+          </div>
+
+          <div class="va-item" tabindex="0" data-img="assets/images/showcase-camera.jpg" data-tag="03 / Market Research">
+            <div class="va-item__row">
+              <span class="va-item__num">03</span>
+              <h3 class="va-item__title">Research and Information Gathering</h3>
+              <span class="va-item__toggle">+</span>
+            </div>
+            <div class="va-item__drawer">
+              <p>Competitor snapshots, category trend checks, supplier comparisons, and concise briefings.</p>
+            </div>
+          </div>
+
+          <div class="va-item" tabindex="0" data-img="assets/images/tiktok-beauty.jpg" data-tag="04 / Content Uploading">
+            <div class="va-item__row">
+              <span class="va-item__num">04</span>
+              <h3 class="va-item__title">Content Uploading</h3>
+              <span class="va-item__toggle">+</span>
+            </div>
+            <div class="va-item__drawer">
+              <p>Formatting, tagging, and publishing approved media assets, blog posts, and product visuals.</p>
+            </div>
+          </div>
+
+          <div class="va-item" tabindex="0" data-img="assets/images/walmart-home.jpg" data-tag="05 / E-Commerce Support">
+            <div class="va-item__row">
+              <span class="va-item__num">05</span>
+              <h3 class="va-item__title">E-commerce Support</h3>
+              <span class="va-item__toggle">+</span>
+            </div>
+            <div class="va-item__drawer">
+              <p>Daily seller-central checks, order exception tracking, and promotional price updates.</p>
+            </div>
+          </div>
+
+          <div class="va-item" tabindex="0" data-img="assets/images/etsy-ceramics.jpg" data-tag="06 / Listing Assistance">
+            <div class="va-item__row">
+              <span class="va-item__num">06</span>
+              <h3 class="va-item__title">Product Listing Assistance</h3>
+              <span class="va-item__toggle">+</span>
+            </div>
+            <div class="va-item__drawer">
+              <p>Drafting product titles, bullets, backend attributes, and flat-file uploads across channels.</p>
+            </div>
+          </div>
+
+          <div class="va-item" tabindex="0" data-img="assets/images/showcase-stool.jpg" data-tag="07 / Routine Operations">
+            <div class="va-item__row">
+              <span class="va-item__num">07</span>
+              <h3 class="va-item__title">Routine Business Task Support</h3>
+              <span class="va-item__toggle">+</span>
+            </div>
+            <div class="va-item__drawer">
+              <p>Recurring weekly checklists, status summaries, and dependable back-office task execution.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 07: HOW WE WORK TOGETHER
+         - 4 Road Cards keep exact text + LIVE ANIMATED BACKGROUND SCENES inside each card!
+         - 3 Bottom Bento Cards upgraded with 3 Fresh Luxury Images!
+         ===================================================================== -->
+    <section class="road-section" id="process-road">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">How We <span class="text-crimson">Work Together.</span></h2>
+          <p class="section-sub">A simple, transparent four-step path from audit to daily execution.</p>
+        </div>
+
+        <div class="road-stage" id="road-stage">
+          <svg class="road-svg" viewBox="0 0 1200 920" fill="none" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M 140 80 C 1020 80, 1020 320, 220 320 C -140 320, 1080 580, 880 580 C 660 580, 220 840, 1060 840" stroke="rgba(232,223,202,0.14)" stroke-width="3" stroke-dasharray="10 10"/>
+            <path id="road-trace" d="M 140 80 C 1020 80, 1020 320, 220 320 C -140 320, 1080 580, 880 580 C 660 580, 220 840, 1060 840" stroke="url(#roadGrad)" stroke-width="5" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="roadGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#E50914"/>
+                <stop offset="55%" stop-color="#FF5500"/>
+                <stop offset="100%" stop-color="#E8DFCA"/>
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <div class="road-nodes">
+
+            <!-- CARD 01: AUDIT & SCOPE (Live Animated Radar & Diagnostic Scan in Background) -->
+            <article class="road-node road-node--1" data-smooth-card>
+              <div class="road-node__bg" aria-hidden="true">
+                <img src="assets/images/hs-1-storefront.jpg" alt="" class="road-node__bg-img" />
+                <!-- Live Animated Radar Sweep SVG -->
+                <svg class="road-anim-svg road-anim-svg--radar" viewBox="0 0 400 220" fill="none">
+                  <circle cx="320" cy="110" r="85" stroke="rgba(232,223,202,0.16)" stroke-width="1.5" stroke-dasharray="4 4"/>
+                  <circle cx="320" cy="110" r="55" stroke="rgba(229,9,20,0.28)" stroke-width="1.5"/>
+                  <circle cx="320" cy="110" r="25" stroke="rgba(255,85,0,0.4)" stroke-width="1.5"/>
+                  <g class="radar-sweep">
+                    <path d="M320 110 L320 25 A85 85 0 0 1 395 75 Z" fill="url(#radarCone)"/>
+                    <line x1="320" y1="110" x2="320" y2="25" stroke="#FF5500" stroke-width="2"/>
+                  </g>
+                  <circle class="pulse-dot pulse-dot--1" cx="290" cy="75" r="4" fill="#E50914"/>
+                  <circle class="pulse-dot pulse-dot--2" cx="355" cy="95" r="4" fill="#E8DFCA"/>
+                  <circle class="pulse-dot pulse-dot--3" cx="335" cy="145" r="4" fill="#FF5500"/>
+                  <defs>
+                    <linearGradient id="radarCone" x1="320" y1="25" x2="395" y2="110" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="rgba(255,85,0,0.42)"/>
+                      <stop offset="100%" stop-color="rgba(229,9,20,0)"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div class="road-node__content">
+                <div class="road-node__badge">01</div>
+                <h3>Audit &amp; Scope</h3>
+                <p>We review your current marketplace listings or operational backlog and define clear priorities.</p>
+              </div>
+            </article>
+
+            <!-- CARD 02: WORKFLOW SETUP (Live Animated Flowchart & Circuit Data Nodes in Background) -->
+            <article class="road-node road-node--2" data-smooth-card>
+              <div class="road-node__bg" aria-hidden="true">
+                <img src="assets/images/hs-2-catalog.jpg" alt="" class="road-node__bg-img" />
+                <svg class="road-anim-svg road-anim-svg--circuit" viewBox="0 0 400 220" fill="none">
+                  <path d="M180 55 H270 L300 85 H375" stroke="rgba(232,223,202,0.16)" stroke-width="2"/>
+                  <path d="M160 115 H360" stroke="rgba(232,223,202,0.16)" stroke-width="2"/>
+                  <path d="M190 175 H260 L295 140 H375" stroke="rgba(232,223,202,0.16)" stroke-width="2"/>
+                  <!-- Animated Flowing Data Streams -->
+                  <path class="circuit-flow circuit-flow--1" d="M180 55 H270 L300 85 H375" stroke="#FF5500" stroke-width="2.5" stroke-linecap="round"/>
+                  <path class="circuit-flow circuit-flow--2" d="M160 115 H360" stroke="#E8DFCA" stroke-width="2.5" stroke-linecap="round"/>
+                  <path class="circuit-flow circuit-flow--3" d="M190 175 H260 L295 140 H375" stroke="#E50914" stroke-width="2.5" stroke-linecap="round"/>
+                  <rect x="255" y="45" width="22" height="20" rx="5" fill="#12131A" stroke="#FF5500" stroke-width="1.5"/>
+                  <rect x="285" y="105" width="22" height="20" rx="5" fill="#12131A" stroke="#E8DFCA" stroke-width="1.5"/>
+                  <rect x="335" y="130" width="22" height="20" rx="5" fill="#12131A" stroke="#E50914" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <div class="road-node__content">
+                <div class="road-node__badge">02</div>
+                <h3>Workflow Setup</h3>
+                <p>We structure your catalog hierarchy, keyword map, and recurring virtual assistance checklists.</p>
+              </div>
+            </article>
+
+            <!-- CARD 03: DAILY EXECUTION (Live Animated Task Pulse Bars & Sync Wave in Background) -->
+            <article class="road-node road-node--3" data-smooth-card>
+              <div class="road-node__bg" aria-hidden="true">
+                <img src="assets/images/hs-6-operations.jpg" alt="" class="road-node__bg-img" />
+                <svg class="road-anim-svg road-anim-svg--exec" viewBox="0 0 400 220" fill="none">
+                  <g class="exec-bars">
+                    <rect class="eb eb--1" x="235" y="70" width="12" height="90" rx="6" fill="rgba(229,9,20,0.45)"/>
+                    <rect class="eb eb--2" x="258" y="45" width="12" height="115" rx="6" fill="rgba(255,85,0,0.5)"/>
+                    <rect class="eb eb--3" x="281" y="80" width="12" height="80" rx="6" fill="rgba(232,223,202,0.4)"/>
+                    <rect class="eb eb--4" x="304" y="35" width="12" height="125" rx="6" fill="rgba(229,9,20,0.55)"/>
+                    <rect class="eb eb--5" x="327" y="60" width="12" height="100" rx="6" fill="rgba(255,85,0,0.45)"/>
+                    <rect class="eb eb--6" x="350" y="40" width="12" height="120" rx="6" fill="rgba(232,223,202,0.5)"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="road-node__content">
+                <div class="road-node__badge">03</div>
+                <h3>Daily Execution</h3>
+                <p>Storefront builds, listing optimization, and daily virtual assistant tasks go live on schedule.</p>
+              </div>
+            </article>
+
+            <!-- CARD 04: SCALE & REFINE (Live Animated Rising Growth Trajectory & Orbit Rings in Background) -->
+            <article class="road-node road-node--4" data-smooth-card>
+              <div class="road-node__bg" aria-hidden="true">
+                <img src="assets/images/hs-5-social.jpg" alt="" class="road-node__bg-img" />
+                <svg class="road-anim-svg road-anim-svg--scale" viewBox="0 0 400 220" fill="none">
+                  <path d="M170 175 C 220 170, 245 125, 285 130 C 325 135, 345 65, 385 45" stroke="rgba(232,223,202,0.2)" stroke-width="6" stroke-linecap="round"/>
+                  <path class="scale-wave" d="M170 175 C 220 170, 245 125, 285 130 C 325 135, 345 65, 385 45" stroke="url(#scaleGrad)" stroke-width="4" stroke-linecap="round"/>
+                  <circle class="scale-beacon" cx="385" cy="45" r="7" fill="#FF5500"/>
+                  <defs>
+                    <linearGradient id="scaleGrad" x1="170" y1="175" x2="385" y2="45" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#E50914"/>
+                      <stop offset="50%" stop-color="#FF5500"/>
+                      <stop offset="100%" stop-color="#E8DFCA"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div class="road-node__content">
+                <div class="road-node__badge">04</div>
+                <h3>Scale &amp; Refine</h3>
+                <p>Ongoing catalog updates, new SKU launches, and smooth cross-channel expansion.</p>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- 3D Asymmetric Luxury Showcase Mosaic (Replaces old 3 dull Bento cards!) -->
+        <div class="luxury-mosaic">
+
+          <!-- Large Feature Showcase 01 (Wide Span) -->
+          <article class="mosaic-card mosaic-card--wide" data-smooth-card>
+            <img src="assets/images/gallery-1-redshoe.jpg" alt="Crimson Flagship Merchandising" class="mosaic-card__img" />
+            <div class="mosaic-card__scrim"></div>
+            <div class="mosaic-card__hud">
+              <span class="mosaic-badge">01 / Multi-Channel Merchandising</span>
+              <span class="mosaic-live"><i></i> 4 Marketplaces</span>
+            </div>
+            <div class="mosaic-card__body">
+              <h3>Platform-Native Visual Merchandising</h3>
+              <p>High-contrast A+ modules, mobile-first 9:16 gallery packs, and conversion-focused storefront layouts across Amazon, Walmart, Etsy, and TikTok Shop.</p>
+            </div>
+          </article>
+
+          <!-- Tall Editorial Card 02 -->
+          <article class="mosaic-card" data-smooth-card>
+            <img src="assets/images/gallery-2-perfume.jpg" alt="Luxury Brand Presentation" class="mosaic-card__img" />
+            <div class="mosaic-card__scrim"></div>
+            <div class="mosaic-card__hud">
+              <span class="mosaic-badge">02 / Brand Positioning</span>
+              <span class="mosaic-live"><i></i> Story &amp; SEO</span>
+            </div>
+            <div class="mosaic-card__body">
+              <h3>Elevated Brand Storytelling</h3>
+              <p>Cohesive visual identity paired with 13-tag discovery and search-indexed copywriting.</p>
+            </div>
+          </article>
+
+          <!-- Tall Editorial Card 03 -->
+          <article class="mosaic-card" data-smooth-card>
+            <img src="assets/images/gallery-3-audio.jpg" alt="Precision Catalog Architecture" class="mosaic-card__img" />
+            <div class="mosaic-card__scrim"></div>
+            <div class="mosaic-card__hud">
+              <span class="mosaic-badge">03 / Catalog Engineering</span>
+              <span class="mosaic-live"><i></i> Zero Errors</span>
+            </div>
+            <div class="mosaic-card__body">
+              <h3>Clean Variation &amp; SKU Architecture</h3>
+              <p>Parent-child variation families, retail spec compliance, and flat-file precision.</p>
+            </div>
+          </article>
+
+          <!-- Large Feature Showcase 04 (Wide Span) -->
+          <article class="mosaic-card mosaic-card--wide" data-smooth-card>
+            <img src="assets/images/gallery-4-command.jpg" alt="Unified Daily Operations" class="mosaic-card__img" />
+            <div class="mosaic-card__scrim"></div>
+            <div class="mosaic-card__hud">
+              <span class="mosaic-badge">04 / Connected Execution</span>
+              <span class="mosaic-live"><i></i> 7 VA Workflows</span>
+            </div>
+            <div class="mosaic-card__body">
+              <h3>One Connected Operational Roof</h3>
+              <p>Marketplace growth and dependable daily Virtual Assistance working together seamlessly—from admin and data organization to daily listing upkeep.</p>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 08: FREQUENTLY ASKED QUESTIONS + RIGHT-SIDE 3D CUBE STAGE
+         ===================================================================== -->
+    <section class="faq-section" id="faq">
+      <div class="container">
+
+        <div class="faq-split-layout">
+
+          <!-- Left Column: FAQ Header + Accordion -->
+          <div class="faq-left-col">
+            <div class="section-header">
+              <h2 class="section-title">Frequently Asked <span class="text-crimson">Questions.</span></h2>
+              <p class="section-sub">Click any question below or move your cursor to inspect the 3D marketplace &amp; virtual assistance cube.</p>
+            </div>
+
+            <div class="faq-accordion">
+
+              <div class="faq-row is-open" data-faq-idx="0">
+                <button type="button" class="faq-btn" aria-expanded="true">
+                  <span class="faq-num">01</span>
+                  <span class="faq-q">Can we hire Wig Wham for a single marketplace or combine services?</span>
+                  <span class="faq-sign">–</span>
+                </button>
+                <div class="faq-ans">
+                  <p>Yes. You can start with a single marketplace (Amazon, Walmart, Etsy, or TikTok Shop), dedicated Virtual Assistance, or combine both into one unified workflow.</p>
+                </div>
+              </div>
+
+              <div class="faq-row" data-faq-idx="1">
+                <button type="button" class="faq-btn" aria-expanded="false">
+                  <span class="faq-num">02</span>
+                  <span class="faq-q">How do you handle multi-variant catalogs across channels?</span>
+                  <span class="faq-sign">+</span>
+                </button>
+                <div class="faq-ans" hidden>
+                  <p>We structure parent-child variations, SKU attributes, and platform-specific flat files so your product families stay organized and compliant on every marketplace.</p>
+                </div>
+              </div>
+
+              <div class="faq-row" data-faq-idx="2">
+                <button type="button" class="faq-btn" aria-expanded="false">
+                  <span class="faq-num">03</span>
+                  <span class="faq-q">What tasks can we delegate to your Virtual Assistance team?</span>
+                  <span class="faq-sign">+</span>
+                </button>
+                <div class="faq-ans" hidden>
+                  <p>Our Virtual Assistance covers administrative support, data entry and organization, research, content uploading, e-commerce support, product listing assistance, and routine business tasks.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive 3D Rotating Cube + Gyroscope Rings + Orbit Badges Stage! -->
+          <div class="faq-right-col" id="faq-cube-stage">
+            <div class="faq-3d-ambient" aria-hidden="true"></div>
+            <div class="travelling-3d-rig faq-3d-rig" id="faq-3d-rig">
+              <div class="gyro-ring gyro-ring--outer"></div>
+              <div class="gyro-ring gyro-ring--inner"></div>
+
+              <div class="cube-3d-scene">
+                <div class="cube-3d" id="faq-cube-3d">
+                  <div class="cube-face cube-face--front">
+                    <img src="assets/images/mp-walmart-living.jpg" alt="" />
+                    <div class="cube-face__glass">
+                      <span>02 / WALMART</span>
+                      <strong>Retail Spec Engine</strong>
+                    </div>
+                  </div>
+                  <div class="cube-face cube-face--right">
+                    <img src="assets/images/mp-amazon-luxury.jpg" alt="" />
+                    <div class="cube-face__glass">
+                      <img src="assets/images/wig-wham-tent-only.png" alt="" class="cube-face__tent" />
+                      <span>01 / AMAZON</span>
+                      <strong>Storefront &amp; A+</strong>
+                    </div>
+                  </div>
+                  <div class="cube-face cube-face--back">
+                    <img src="assets/images/mp-etsy-artisan.jpg" alt="" />
+                    <div class="cube-face__glass">
+                      <span>03 / ETSY</span>
+                      <strong>13-Tag Discovery</strong>
+                    </div>
+                  </div>
+                  <div class="cube-face cube-face--left">
+                    <img src="assets/images/mp-tiktok-viral.jpg" alt="" />
+                    <div class="cube-face__glass">
+                      <span>04 / TIKTOK SHOP</span>
+                      <strong>9:16 Commerce</strong>
+                    </div>
+                  </div>
+                  <div class="cube-face cube-face--top">
+                    <img src="assets/images/mp-va-command.jpg" alt="" />
+                    <div class="cube-face__glass">
+                      <span>05 / VIRTUAL ASSISTANCE</span>
+                      <strong>7 Daily Workflows</strong>
+                    </div>
+                  </div>
+                  <div class="cube-face cube-face--bottom"></div>
+                </div>
+              </div>
+
+              <div class="orbit-badge orbit-badge--1">Amazon · Walmart</div>
+              <div class="orbit-badge orbit-badge--2">Etsy · TikTok Shop</div>
+              <div class="orbit-badge orbit-badge--3">05 Virtual Assistance</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 09 (AWWWARDS EDITORIAL & ARCHITECTURAL SPLIT CONTACT):
+         NO SAAS BOXES, NO FAKE WINDOW DOTS — PURE BESPOKE STUDIO DESIGN
+         ===================================================================== -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+
+        <div class="editorial-contact">
+
+          <!-- LEFT COLUMN: OVERSIZED EDITORIAL HEADLINE + 3D STUDIO PORTRAIT CARD -->
+          <div class="editorial-contact__left">
+            <h2 class="editorial-contact__title">
+              Start a <span class="text-crimson">Conversation.</span>
+            </h2>
+            <p class="editorial-contact__lead">
+              Whether you need full marketplace execution across Amazon, Walmart, Etsy, and TikTok Shop or dependable daily Virtual Assistance, tell us what you are building.
+            </p>
+
+            <!-- Bespoke 3D Editorial Visual Portrait (Matches Forge / Puture / Nomu aesthetic) -->
+            <div class="editorial-portrait" data-smooth-card>
+              <img src="assets/images/gallery-2-perfume.jpg" alt="Wig Wham Studio Execution" class="editorial-portrait__img" />
+              <div class="editorial-portrait__overlay">
+                <img src="assets/images/wig-wham-logo-horizontal.png" alt="Wig Wham" class="editorial-portrait__logo" />
+                <div class="editorial-portrait__meta">
+                  <div>
+                    <span>MARKETPLACES</span>
+                    <strong>Amazon · Walmart · Etsy · TikTok Shop</strong>
+                  </div>
+                  <div>
+                    <span>OPERATIONS</span>
+                    <strong>Dedicated Daily Virtual Assistance</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: MINIMALIST SWISS HAIRLINE FORM (ZERO BOXY INPUTS!) -->
+          <div class="editorial-contact__right">
+            <form class="atelier-form" id="contact-form" novalidate>
+
+              <!-- Minimalist Editorial Service Selection -->
+              <div class="atelier-form__group">
+                <span class="atelier-form__group-label">What can we help you with?</span>
+                <div class="cap-selector" role="group" aria-label="Services">
+                  <button type="button" class="cap-pill is-selected" data-cap="Amazon">Amazon</button>
+                  <button type="button" class="cap-pill" data-cap="Walmart">Walmart</button>
+                  <button type="button" class="cap-pill" data-cap="Etsy">Etsy</button>
+                  <button type="button" class="cap-pill" data-cap="TikTok Shop">TikTok Shop</button>
+                  <button type="button" class="cap-pill is-selected" data-cap="Virtual Assistance">Virtual Assistance</button>
+                </div>
+                <input type="hidden" id="cf-service" value="Full Scope (Marketplaces + Virtual Assistance)" />
+              </div>
+
+              <!-- Clean Architectural Bottom-Line Inputs -->
+              <div class="atelier-form__row">
+                <div class="atelier-field">
+                  <label for="cf-name">Your Name *</label>
+                  <input type="text" id="cf-name" placeholder="Enter your name" required />
+                  <span class="atelier-field__line"></span>
+                </div>
+
+                <div class="atelier-field">
+                  <label for="cf-company">Brand or Store Name</label>
+                  <input type="text" id="cf-company" placeholder="Your brand or store" />
+                  <span class="atelier-field__line"></span>
+                </div>
+              </div>
+
+              <div class="atelier-field">
+                <label for="cf-email">Email Address *</label>
+                <input type="email" id="cf-email" placeholder="name@company.com" required />
+                <span class="atelier-field__line"></span>
+              </div>
+
+              <div class="atelier-field">
+                <label for="cf-message">Project Details *</label>
+                <textarea id="cf-message" rows="3" placeholder="Tell us about your products, channels, or daily workflows..." required></textarea>
+                <span class="atelier-field__line"></span>
+              </div>
+
+              <p class="form-err" id="form-err" hidden></p>
+
+              <!-- Giant Editorial Submit Bar -->
+              <button type="submit" class="atelier-submit-bar">
+                <span class="atelier-submit-bar__text" id="submit-btn-text">Send Project Inquiry</span>
+                <span class="atelier-submit-bar__circle">↗</span>
+              </button>
+
+            </form>
+
+            <div class="brief-done" id="brief-done" hidden>
+              <h3>Inquiry Summary Ready</h3>
+              <pre id="brief-output"></pre>
+              <div class="brief-actions">
+                <button type="button" class="btn-atelier" id="copy-brief"><span>Copy Summary</span></button>
+                <button type="button" class="mode-btn" id="edit-brief">Edit Inquiry</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================================
+       GIANT MONOLITH FOOTER WITH INTERACTIVE 3D PARTICLE CONSTELLATION CANVAS
+       ===================================================================== -->
+  <footer class="site-footer" id="site-footer">
+    <!-- Interactive 3D Particle & Rising Ember Background Canvas -->
+    <canvas class="footer-particles-canvas" id="footer-particles" aria-hidden="true"></canvas>
+    <div class="footer-horizon-glow" aria-hidden="true"></div>
+
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/images/wig-wham-logo-horizontal.png" alt="Wig Wham" />
+          <p>E-Commerce Marketplace Execution &amp; Dependable Virtual Assistance.</p>
+        </div>
+
+        <div class="footer-nav">
+          <a href="#pillars-stack">Pillars</a>
+          <a href="#marketplaces-split">Marketplaces</a>
+          <a href="#virtual-assistance">Virtual Assistance</a>
+          <a href="#process-road">Process</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+
+      <div class="footer-monolith" aria-hidden="true">WIG WHAM</div>
+
+      <div class="footer-bottom">
+        <span>&copy; <span id="year">2026</span> Wig Wham. All rights reserved.</span>
+        <a href="#portal-track">Back to Top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lenis Smooth Scroll + 3D Scrollytelling Engine -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
