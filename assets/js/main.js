@@ -927,4 +927,172 @@
 
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  // =========================================================================
+  // 15. INTERACTIVE BOOK A MEETING SCHEDULER (book-a-meeting.html)
+  // =========================================================================
+  const bookingForm = document.getElementById("booking-form");
+  const bookingDateGrid = document.getElementById("booking-date-grid");
+  const bookingTimeGrid = document.getElementById("booking-time-grid");
+  const bookingLiveSummary = document.getElementById("booking-live-summary");
+  const bookingTzEl = document.getElementById("booking-tz");
+
+  if (bookingForm && bookingDateGrid && bookingTimeGrid) {
+    let selectedDuration = "30";
+    let selectedDateLabel = "";
+    let selectedDateISO = "";
+    let selectedTime = "10:30 AM";
+
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (tz && bookingTzEl) {
+        bookingTzEl.textContent = tz.replace(/_/g, " ");
+      }
+    } catch (_) {}
+
+    // Generate next 8 upcoming business days dynamically
+    const daysShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const cursorDate = new Date();
+    cursorDate.setDate(cursorDate.getDate() + 1);
+
+    let added = 0;
+    bookingDateGrid.innerHTML = "";
+
+    while (added < 8) {
+      const dayOfWeek = cursorDate.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        const dName = daysShort[dayOfWeek];
+        const dNum = cursorDate.getDate();
+        const mName = monthsShort[cursorDate.getMonth()];
+        const yNum = cursorDate.getFullYear();
+        const iso = `${yNum}-${String(cursorDate.getMonth() + 1).padStart(2, "0")}-${String(dNum).padStart(2, "0")}`;
+        const label = `${dName}, ${mName} ${dNum}, ${yNum}`;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "date-card" + (added === 0 ? " is-selected" : "");
+        btn.dataset.dateIso = iso;
+        btn.dataset.dateLabel = label;
+        btn.innerHTML = `
+          <span class="date-card__day">${dName}</span>
+          <strong class="date-card__num">${dNum}</strong>
+          <span class="date-card__month">${mName}</span>
+        `;
+
+        if (added === 0) {
+          selectedDateISO = iso;
+          selectedDateLabel = label;
+        }
+
+        btn.addEventListener("click", () => {
+          bookingDateGrid.querySelectorAll(".date-card").forEach((c) => c.classList.remove("is-selected"));
+          btn.classList.add("is-selected");
+          selectedDateISO = iso;
+          selectedDateLabel = label;
+          updateBookingLiveSummary();
+        });
+
+        bookingDateGrid.appendChild(btn);
+        added++;
+      }
+      cursorDate.setDate(cursorDate.getDate() + 1);
+    }
+
+    const durationPills = Array.from(document.querySelectorAll(".booking-duration-pill"));
+    durationPills.forEach((pill) => {
+      pill.addEventListener("click", () => {
+        durationPills.forEach((p) => {
+          p.classList.remove("is-selected");
+          p.setAttribute("aria-pressed", "false");
+        });
+        pill.classList.add("is-selected");
+        pill.setAttribute("aria-pressed", "true");
+        selectedDuration = pill.dataset.duration || "30";
+        updateBookingLiveSummary();
+      });
+    });
+
+    const timePills = Array.from(bookingTimeGrid.querySelectorAll(".time-pill"));
+    timePills.forEach((pill) => {
+      pill.addEventListener("click", () => {
+        timePills.forEach((p) => p.classList.remove("is-selected"));
+        pill.classList.add("is-selected");
+        selectedTime = pill.dataset.time || "10:30 AM";
+        updateBookingLiveSummary();
+      });
+    });
+
+    const topicPills = Array.from(document.querySelectorAll(".booking-topic-pill"));
+    topicPills.forEach((pill) => {
+      pill.addEventListener("click", () => {
+        const next = !pill.classList.contains("is-selected");
+        const count = topicPills.filter((p) => p.classList.contains("is-selected")).length;
+        if (!next && count <= 1) return;
+        pill.classList.toggle("is-selected", next);
+        pill.setAttribute("aria-pressed", String(next));
+      });
+    });
+
+    function updateBookingLiveSummary() {
+      if (!bookingLiveSummary) return;
+      bookingLiveSummary.textContent = `${selectedDateLabel} · ${selectedTime} (${selectedDuration} Min)`;
+    }
+
+    updateBookingLiveSummary();
+
+    const bookingErr = document.getElementById("booking-err");
+    const bookingDone = document.getElementById("booking-done");
+    const bookingSummaryText = document.getElementById("booking-summary-text");
+    const gcalLink = document.getElementById("gcal-link");
+    const resetBookingBtn = document.getElementById("reset-booking");
+
+    bookingForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = (document.getElementById("b-name")?.value || "").trim();
+      const brand = (document.getElementById("b-brand")?.value || "").trim() || "Brand Partner";
+      const email = (document.getElementById("b-email")?.value || "").trim();
+      const notes = (document.getElementById("b-notes")?.value || "").trim() || "Walk through marketplace execution & daily virtual assistance workflows.";
+
+      if (!name || !email || !email.includes("@")) {
+        if (bookingErr) bookingErr.hidden = false;
+        return;
+      }
+      if (bookingErr) bookingErr.hidden = true;
+
+      const chosenTopics = topicPills
+        .filter((p) => p.classList.contains("is-selected"))
+        .map((p) => p.dataset.topic);
+
+      const summary = [
+        "WIG WHAM — CONFIRMED DISCOVERY SESSION",
+        "============================================",
+        `Date & Time   : ${selectedDateLabel} at ${selectedTime}`,
+        `Duration      : ${selectedDuration} Minutes`,
+        `Guest         : ${name} (${brand})`,
+        `Email         : ${email}`,
+        `Focus Channels: ${chosenTopics.join(", ")}`,
+        "--------------------------------------------",
+        `Agenda Notes  : ${notes}`,
+      ].join("\n");
+
+      if (bookingSummaryText) bookingSummaryText.textContent = summary;
+
+      if (gcalLink && selectedDateISO) {
+        const cleanDate = selectedDateISO.replace(/-/g, "");
+        const title = encodeURIComponent(`Wig Wham × ${brand} — 3D Strategy & Operations Call`);
+        const details = encodeURIComponent(summary);
+        gcalLink.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${cleanDate}T150000Z/${cleanDate}T153000Z&details=${details}`;
+      }
+
+      bookingForm.hidden = true;
+      if (bookingDone) bookingDone.hidden = false;
+    });
+
+    resetBookingBtn?.addEventListener("click", () => {
+      bookingForm.reset();
+      if (bookingDone) bookingDone.hidden = true;
+      bookingForm.hidden = false;
+    });
+  }
 })();
