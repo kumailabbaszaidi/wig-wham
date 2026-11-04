@@ -10,32 +10,10 @@
   "use strict";
 
   /* ========================================================================
-     1. LENIS SMOOTH SCROLL
+     1. NATIVE HARDWARE-ACCELERATED SMOOTH SCROLL HELPER
      ======================================================================== */
-  let lenis = null;
-
-  if (typeof window.Lenis !== "undefined") {
-    try {
-      lenis = new window.Lenis({
-        duration: 1.08,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-      });
-
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
-    } catch (e) {
-      lenis = null;
-    }
-  }
-
   function smoothScrollTo(target) {
-    if (lenis) {
-      lenis.scrollTo(target, { duration: 1.25 });
-    } else if (typeof target === "number") {
+    if (typeof target === "number") {
       window.scrollTo({ top: target, behavior: "smooth" });
     } else if (target && target.scrollIntoView) {
       target.scrollIntoView({ behavior: "smooth" });
@@ -419,6 +397,11 @@
   }
   requestAnimationFrame(updatePortalOrbit);
 
+  let lastPortalP = -1;
+  let lastHscrollP = -1;
+  let lastRoadP = -1;
+  let lastTravellingActive = true;
+
   function renderScrollFrame() {
     ticking = false;
     const scrollY = window.scrollY || document.documentElement.scrollTop;
@@ -430,43 +413,44 @@
       scrollProgress.style.transform = `scaleX(${prog.toFixed(4)})`;
     }
 
-    // 2. Pinned Section 01: 120FPS GPU-Smooth Tent Gate Zoom-In & Zoom-Out (Zero clip-path lag!)
+    // 2. Pinned Section 01: 120FPS GPU-Smooth Tent Gate Zoom-In & Zoom-Out
     let portalP = 0;
     if (portalTrack && portalZoomRig && portalOverlay && heroStage) {
       const rawP = (scrollY - metrics.portalTop) / metrics.portalScrollable;
       portalP = Math.min(1, Math.max(0, rawP));
       currentPortalP = portalP;
 
-      // Keep Top Header hidden at start; show ONLY after scrolling into the Tent Gate!
-      if (siteHeader) {
-        const showHeader = portalP >= 0.62;
-        siteHeader.classList.toggle("is-visible", showHeader);
-        if (!showHeader) closeMenu();
-      }
+      if (Math.abs(portalP - lastPortalP) > 0.0005) {
+        lastPortalP = portalP;
 
-      if (portalP < 1) {
-        // Smooth GPU-composited scale (capped at 7.2x so GPU never stalls during zoom-out!)
-        const scale = 1 + Math.pow(portalP, 1.65) * 6.2;
-        portalZoomRig.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(3)})`;
-
-        // Pure GPU-composited Hero reveal (scale + opacity, zero clip-path rasterization!)
-        const heroAlpha = portalP < 0.14 ? 0 : Math.min(1, (portalP - 0.14) / 0.42);
-        const heroScale = 0.88 + Math.min(1, portalP / 0.78) * 0.12;
-        heroStage.style.opacity = String(heroAlpha.toFixed(3));
-        heroStage.style.transform = `translate3d(0, 0, 0) scale(${heroScale.toFixed(3)})`;
-
-        const overlayAlpha = portalP > 0.42 ? 1 - (portalP - 0.42) / 0.44 : 1;
-        portalOverlay.style.opacity = String(Math.max(0, overlayAlpha).toFixed(3));
-        portalOverlay.classList.toggle("is-done", overlayAlpha <= 0.01);
-
-        if (portalHud) {
-          portalHud.style.opacity = String(Math.max(0, 1 - portalP * 3.8).toFixed(2));
+        if (siteHeader) {
+          const showHeader = portalP >= 0.62;
+          siteHeader.classList.toggle("is-visible", showHeader);
+          if (!showHeader) closeMenu();
         }
-      } else {
-        heroStage.style.opacity = "1";
-        heroStage.style.transform = "translate3d(0, 0, 0) scale(1)";
-        portalOverlay.style.opacity = "0";
-        portalOverlay.classList.add("is-done");
+
+        if (portalP < 1) {
+          const scale = 1 + Math.pow(portalP, 1.65) * 6.2;
+          portalZoomRig.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(3)})`;
+
+          const heroAlpha = portalP < 0.14 ? 0 : Math.min(1, (portalP - 0.14) / 0.42);
+          const heroScale = 0.88 + Math.min(1, portalP / 0.78) * 0.12;
+          heroStage.style.opacity = String(heroAlpha.toFixed(3));
+          heroStage.style.transform = `translate3d(0, 0, 0) scale(${heroScale.toFixed(3)})`;
+
+          const overlayAlpha = portalP > 0.42 ? 1 - (portalP - 0.42) / 0.44 : 1;
+          portalOverlay.style.opacity = String(Math.max(0, overlayAlpha).toFixed(3));
+          portalOverlay.classList.toggle("is-done", overlayAlpha <= 0.01);
+
+          if (portalHud) {
+            portalHud.style.opacity = String(Math.max(0, 1 - portalP * 3.8).toFixed(2));
+          }
+        } else {
+          heroStage.style.opacity = "1";
+          heroStage.style.transform = "translate3d(0, 0, 0) scale(1)";
+          portalOverlay.style.opacity = "0";
+          portalOverlay.classList.add("is-done");
+        }
       }
     }
 
@@ -478,6 +462,7 @@
       const exitEnd = metrics.manifestoTop + metrics.manifestoHeight;
 
       if (scrollY >= enterStart && scrollY <= exitEnd) {
+        lastTravellingActive = true;
         const glideP = Math.min(1, Math.max(0, (scrollY - enterStart) / Math.max(1, dockPoint - enterStart)));
         const spinP = Math.min(1, Math.max(0, (scrollY - dockPoint) / metrics.manifestoScrollable));
         const exitP = scrollY > exitStart ? Math.min(1, (scrollY - exitStart) / Math.max(1, exitEnd - exitStart)) : 0;
@@ -495,7 +480,8 @@
         const rotY = -28 + glideP * 90 + spinP * 270 + normMouseX * 14;
         const rotX = -16 + Math.sin(spinP * Math.PI * 2) * 18 - normMouseY * 12;
         cube3d.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
-      } else {
+      } else if (lastTravellingActive) {
+        lastTravellingActive = false;
         travellingLayer.style.opacity = "0";
       }
     }
@@ -511,29 +497,14 @@
         for (let i = 0; i < manifestoWords.length; i++) {
           manifestoWords[i].classList.toggle("is-lit", i <= litCount);
         }
-      }
-
-      if (weWindow) {
-        const scaleX = 0.76 + p * 0.24;
-        weWindow.style.transform = `scaleX(${scaleX.toFixed(3)})`;
-      }
-    }
-
-    // 5. Pinned Section 03: Sticky Stacking Pillar Cards
-    if (stackCards.length > 1) {
-      const nextViewportTop = metrics.stackTops[1] - scrollY;
-      if (nextViewportTop < viewH && nextViewportTop > 120) {
-        const overlap = 1 - (nextViewportTop - 120) / (viewH - 120);
-        const s = 1 - Math.min(1, Math.max(0, overlap)) * 0.035;
-        stackCards[0].style.transform = `scale(${s.toFixed(3)})`;
-      } else if (nextViewportTop <= 120) {
-        stackCards[0].style.transform = "scale(0.965)";
-      } else {
-        stackCards[0].style.transform = "scale(1)";
+        if (weWindow) {
+          const scaleX = 0.76 + p * 0.24;
+          weWindow.style.transform = `scaleX(${scaleX.toFixed(3)})`;
+        }
       }
     }
 
-    // 6. Pinned Section 04: Split-Screen 5 Engines Wipe + Dynamic Background Reel Crossfade
+    // 5. Pinned Section 04: Split-Screen 5 Engines Wipe + Dynamic Background Reel Crossfade
     if (mpChapters.length > 0) {
       let activeIdx = 0;
       const triggerY = scrollY + viewH * 0.52;
@@ -552,28 +523,34 @@
       }
     }
 
-    // 7. Pinned Section 05: Butter-Smooth Horizontal-Scroll Showcase (Zero conflict with card hover!)
+    // 6. Pinned Section 05: Butter-Smooth Horizontal-Scroll Showcase
     if (hscrollTrack && hscrollStrip) {
       const rawP = (scrollY - metrics.hscrollTop) / metrics.hscrollScrollable;
       const p = Math.min(1, Math.max(0, rawP));
-      const moveX = -p * metrics.hscrollMaxX;
-      hscrollStrip.style.transform = `translate3d(${moveX.toFixed(1)}px, 0, 0)`;
+      if (Math.abs(p - lastHscrollP) > 0.0004) {
+        lastHscrollP = p;
+        const moveX = -p * metrics.hscrollMaxX;
+        hscrollStrip.style.transform = `translate3d(${moveX.toFixed(1)}px, 0, 0)`;
 
-      if (hscrollBgWords) {
-        hscrollBgWords.style.transform = `translate3d(${(moveX * 0.45).toFixed(1)}px, -50%, 0)`;
-      }
+        if (hscrollBgWords) {
+          hscrollBgWords.style.transform = `translate3d(${(moveX * 0.45).toFixed(1)}px, -50%, 0)`;
+        }
 
-      if (hscrollBarFill) {
-        hscrollBarFill.style.transform = `scaleX(${p.toFixed(3)})`;
+        if (hscrollBarFill) {
+          hscrollBarFill.style.transform = `scaleX(${p.toFixed(3)})`;
+        }
       }
     }
 
-    // 8. Section 07: Winding S-Curve Road Trace
+    // 7. Section 07: Winding S-Curve Road Trace
     if (roadStage && roadTrace && metrics.roadLen > 0) {
       const rawP = (scrollY + viewH * 0.7 - metrics.roadTop) / metrics.roadHeight;
       const p = Math.min(1, Math.max(0.04, rawP));
-      const draw = metrics.roadLen * p;
-      roadTrace.style.strokeDashoffset = `${(metrics.roadLen - draw).toFixed(1)}`;
+      if (Math.abs(p - lastRoadP) > 0.001) {
+        lastRoadP = p;
+        const draw = metrics.roadLen * p;
+        roadTrace.style.strokeDashoffset = `${(metrics.roadLen - draw).toFixed(1)}`;
+      }
     }
   }
 
@@ -818,12 +795,13 @@
       { r: 232, g: 223, b: 202 },  // Champagne Gold
     ];
 
-    const PARTICLE_COUNT = 78;
+    const PARTICLE_COUNT = 28;
     const particles = [];
+    let footerRafId = 0;
 
     function resizeFooterCanvas() {
       const rect = siteFooter.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       fWidth = Math.max(300, rect.width);
       fHeight = Math.max(260, rect.height);
       footerCanvas.width = fWidth * dpr;
@@ -837,8 +815,8 @@
         x: Math.random() * (fWidth || window.innerWidth),
         y: Math.random() * (fHeight || 420),
         vx: (Math.random() - 0.5) * 0.48,
-        vy: -0.22 - Math.random() * 0.55, // Rising ember drift + floating motion
-        radius: 1.4 + Math.random() * 2.8,
+        vy: -0.22 - Math.random() * 0.55,
+        radius: 1.4 + Math.random() * 2.6,
         alpha: 0.35 + Math.random() * 0.55,
         pulseSpeed: 0.015 + Math.random() * 0.025,
         phase: Math.random() * Math.PI * 2,
@@ -868,20 +846,12 @@
       fMouseY = -9999;
     });
 
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            footerVisible = entry.isIntersecting;
-          });
-        },
-        { threshold: 0.02 }
-      );
-      io.observe(siteFooter);
-    }
-
     function renderFooterParticles() {
-      if (footerVisible && fWidth > 0 && fHeight > 0) {
+      if (!footerVisible) {
+        footerRafId = 0;
+        return;
+      }
+      if (fWidth > 0 && fHeight > 0) {
         ctx.clearRect(0, 0, fWidth, fHeight);
 
         for (let i = 0; i < particles.length; i++) {
@@ -890,7 +860,6 @@
           p.x += p.vx + Math.sin(p.phase) * 0.18;
           p.y += p.vy;
 
-          // Interactive cursor repulsion / swirl
           const dxm = p.x - fMouseX;
           const dym = p.y - fMouseY;
           const distSq = dxm * dxm + dym * dym;
@@ -901,7 +870,6 @@
             p.y += (dym / dist) * force * 2.1;
           }
 
-          // Wrap around boundaries smoothly
           if (p.y < -12) {
             p.y = fHeight + 12;
             p.x = Math.random() * fWidth;
@@ -909,7 +877,6 @@
           if (p.x < -12) p.x = fWidth + 12;
           if (p.x > fWidth + 12) p.x = -12;
 
-          // Subtle constellation filaments between nearby particles
           for (let j = i + 1; j < particles.length; j++) {
             const p2 = particles[j];
             const dx = p.x - p2.x;
@@ -926,10 +893,9 @@
             }
           }
 
-          // Draw glowing particle core + soft halo
           const curAlpha = p.alpha * (0.7 + 0.3 * Math.sin(p.phase));
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius * 2.4, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, p.radius * 2.2, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${p.col.r}, ${p.col.g}, ${p.col.b}, ${(curAlpha * 0.24).toFixed(3)})`;
           ctx.fill();
 
@@ -939,9 +905,26 @@
           ctx.fill();
         }
       }
-      requestAnimationFrame(renderFooterParticles);
+      footerRafId = requestAnimationFrame(renderFooterParticles);
     }
-    requestAnimationFrame(renderFooterParticles);
+
+    if ("IntersectionObserver" in window) {
+      footerVisible = false;
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            footerVisible = entry.isIntersecting;
+            if (footerVisible && !footerRafId) {
+              footerRafId = requestAnimationFrame(renderFooterParticles);
+            }
+          });
+        },
+        { threshold: 0.01 }
+      );
+      io.observe(siteFooter);
+    } else {
+      footerRafId = requestAnimationFrame(renderFooterParticles);
+    }
   }
 
   const yearEl = document.getElementById("year");
@@ -1184,50 +1167,54 @@
       shopScrollable = Math.max(1, shopTrack.offsetHeight - window.innerHeight);
     }
 
-    function applyShopAssembly(p) {
-      // 1. Full-Viewport 3D Camera Rig Rotation (Isometric Blueprint -> Full-Screen Front View)
-      const camRotX = lerpVal(19, 2.5, p) + rigTiltX;
-      const camRotY = lerpVal(-12, 0, p) + rigTiltY;
-      const camRotZ = lerpVal(1.2, 0, p);
-      const camScale = lerpVal(0.92, 1.0, p);
-      shopRig.style.transform = `rotateX(${camRotX.toFixed(2)}deg) rotateY(${camRotY.toFixed(2)}deg) rotateZ(${camRotZ.toFixed(2)}deg) scale3d(${camScale.toFixed(3)}, ${camScale.toFixed(3)}, 1)`;
+    let prevShopStageIdx = -1;
+    let prevShopLiveState = null;
 
-      // 2. Progress Meter & Active Step Card
+    function applyShopAssembly(p) {
+      // 1. Full-Page 3D Camera Rig Rotation (Tilted Blueprint -> 100% Flat Full-Screen Flagship)
+      const camRotX = lerpVal(11, 0, p) + rigTiltX;
+      const camRotY = lerpVal(-5, 0, p) + rigTiltY;
+      const camScale = lerpVal(0.95, 1.0, p);
+      shopRig.style.transform = `rotateX(${camRotX.toFixed(2)}deg) rotateY(${camRotY.toFixed(2)}deg) scale3d(${camScale.toFixed(3)}, ${camScale.toFixed(3)}, 1)`;
+
+      // 2. Progress Meter & Active Step Card (only touch step DOM when stage changes)
       const pct = Math.round(lerpVal(12, 100, p));
       if (shopBuildPct) shopBuildPct.textContent = `${pct}%`;
       if (shopBuildFill) shopBuildFill.style.transform = `scaleX(${(pct / 100).toFixed(3)})`;
 
       const stageIdx = Math.min(4, Math.floor(p * 4.99));
-      if (shopStageBadge) shopStageBadge.textContent = STAGE_LABELS[stageIdx];
+      if (stageIdx !== prevShopStageIdx) {
+        prevShopStageIdx = stageIdx;
+        if (shopStageBadge) shopStageBadge.textContent = STAGE_LABELS[stageIdx];
 
-      shopStepCards.forEach((card, idx) => {
-        card.classList.toggle("is-active", idx === stageIdx);
-        card.classList.toggle("is-done", idx < stageIdx);
-        const st = card.querySelector(".shop-step-card__status");
-        if (st) {
-          if (idx < stageIdx) st.textContent = "LOCKED";
-          else if (idx === stageIdx) st.textContent = idx === 4 ? "100% LIVE" : "ASSEMBLING";
-          else st.textContent = "QUEUED";
-        }
-      });
+        shopStepCards.forEach((card, idx) => {
+          card.classList.toggle("is-active", idx === stageIdx);
+          card.classList.toggle("is-done", idx < stageIdx);
+          const st = card.querySelector(".shop-step-card__status");
+          if (st) {
+            if (idx < stageIdx) st.textContent = "LOCKED";
+            else if (idx === stageIdx) st.textContent = idx === 4 ? "100% LIVE" : "ASSEMBLING";
+            else st.textContent = "QUEUED";
+          }
+        });
+      }
 
       // 3. Layer 01: Base Storefront Chassis (0.00 -> 0.20)
       if (shopLayerChassis) {
         const p1 = easeOutCubicVal(rangeProgress(p, 0.0, 0.2));
-        const sc1 = lerpVal(0.92, 1, p1);
-        shopLayerChassis.style.opacity = lerpVal(0.7, 1, p1).toFixed(3);
-        shopLayerChassis.style.transform = `translate3d(0, ${lerpVal(20, 0, p1).toFixed(1)}px, 0px) scale3d(${sc1.toFixed(3)}, ${sc1.toFixed(3)}, 1)`;
+        const sc1 = lerpVal(0.96, 1, p1);
+        shopLayerChassis.style.opacity = lerpVal(0.75, 1, p1).toFixed(3);
+        shopLayerChassis.style.transform = `translate3d(0, ${lerpVal(16, 0, p1).toFixed(1)}px, 0) scale3d(${sc1.toFixed(3)}, ${sc1.toFixed(3)}, 1)`;
       }
 
       // 4. Layer 02: 3D Brand Canopy + Hero Campaign Billboard (0.10 -> 0.38)
       if (shopLayerHero) {
         const p2 = easeOutBackVal(rangeProgress(p, 0.10, 0.38));
         const op2 = easeOutCubicVal(rangeProgress(p, 0.10, 0.28));
-        const y2 = lerpVal(-110, 0, p2);
-        const z2 = lerpVal(120, 18, p2);
-        const rx2 = lerpVal(20, 0, p2);
+        const y2 = lerpVal(-55, 0, p2);
+        const sc2 = lerpVal(0.92, 1, p2);
         shopLayerHero.style.opacity = op2.toFixed(3);
-        shopLayerHero.style.transform = `translate3d(0, ${y2.toFixed(1)}px, ${z2.toFixed(1)}px) rotateX(${rx2.toFixed(1)}deg)`;
+        shopLayerHero.style.transform = `translate3d(0, ${y2.toFixed(1)}px, 0) scale3d(${sc2.toFixed(3)}, ${sc2.toFixed(3)}, 1)`;
       }
 
       // 5. Layer 03: 3D Product Showcase Shelf — 3 Staggered SKU Cards (0.32 -> 0.65)
@@ -1235,19 +1222,19 @@
         const p3a = easeOutBackVal(rangeProgress(p, 0.32, 0.54));
         const op3a = easeOutCubicVal(rangeProgress(p, 0.32, 0.46));
         shopSku1.style.opacity = op3a.toFixed(3);
-        shopSku1.style.transform = `translate3d(${lerpVal(-110, 0, p3a).toFixed(1)}px, ${lerpVal(70, 0, p3a).toFixed(1)}px, ${lerpVal(140, 26, p3a).toFixed(1)}px) rotateY(${lerpVal(-18, 0, p3a).toFixed(1)}deg)`;
+        shopSku1.style.transform = `translate3d(${lerpVal(-55, 0, p3a).toFixed(1)}px, ${lerpVal(45, 0, p3a).toFixed(1)}px, 0) scale3d(${lerpVal(0.9, 1, p3a).toFixed(3)}, ${lerpVal(0.9, 1, p3a).toFixed(3)}, 1)`;
       }
       if (shopSku2) {
         const p3b = easeOutBackVal(rangeProgress(p, 0.38, 0.60));
         const op3b = easeOutCubicVal(rangeProgress(p, 0.38, 0.52));
         shopSku2.style.opacity = op3b.toFixed(3);
-        shopSku2.style.transform = `translate3d(0px, ${lerpVal(95, 0, p3b).toFixed(1)}px, ${lerpVal(160, 30, p3b).toFixed(1)}px) rotateX(${lerpVal(-16, 0, p3b).toFixed(1)}deg)`;
+        shopSku2.style.transform = `translate3d(0, ${lerpVal(60, 0, p3b).toFixed(1)}px, 0) scale3d(${lerpVal(0.9, 1, p3b).toFixed(3)}, ${lerpVal(0.9, 1, p3b).toFixed(3)}, 1)`;
       }
       if (shopSku3) {
         const p3c = easeOutBackVal(rangeProgress(p, 0.44, 0.66));
         const op3c = easeOutCubicVal(rangeProgress(p, 0.44, 0.58));
         shopSku3.style.opacity = op3c.toFixed(3);
-        shopSku3.style.transform = `translate3d(${lerpVal(110, 0, p3c).toFixed(1)}px, ${lerpVal(70, 0, p3c).toFixed(1)}px, ${lerpVal(140, 26, p3c).toFixed(1)}px) rotateY(${lerpVal(18, 0, p3c).toFixed(1)}deg)`;
+        shopSku3.style.transform = `translate3d(${lerpVal(55, 0, p3c).toFixed(1)}px, ${lerpVal(45, 0, p3c).toFixed(1)}px, 0) scale3d(${lerpVal(0.9, 1, p3c).toFixed(3)}, ${lerpVal(0.9, 1, p3c).toFixed(3)}, 1)`;
       }
 
       // 6. Layer 04: Dedicated 4th-Column SEO Matrix & Buy-Box Checkout Dock (0.58 -> 0.84)
@@ -1255,13 +1242,13 @@
         const p4a = easeOutBackVal(rangeProgress(p, 0.58, 0.78));
         const op4a = easeOutCubicVal(rangeProgress(p, 0.58, 0.72));
         shopFloatingSeo.style.opacity = op4a.toFixed(3);
-        shopFloatingSeo.style.transform = `translate3d(${lerpVal(95, 0, p4a).toFixed(1)}px, ${lerpVal(-30, 0, p4a).toFixed(1)}px, ${lerpVal(150, 34, p4a).toFixed(1)}px)`;
+        shopFloatingSeo.style.transform = `translate3d(${lerpVal(45, 0, p4a).toFixed(1)}px, ${lerpVal(-20, 0, p4a).toFixed(1)}px, 0) scale3d(${lerpVal(0.92, 1, p4a).toFixed(3)}, ${lerpVal(0.92, 1, p4a).toFixed(3)}, 1)`;
       }
       if (shopFloatingBuybox) {
         const p4b = easeOutBackVal(rangeProgress(p, 0.63, 0.84));
         const op4b = easeOutCubicVal(rangeProgress(p, 0.63, 0.76));
         shopFloatingBuybox.style.opacity = op4b.toFixed(3);
-        shopFloatingBuybox.style.transform = `translate3d(${lerpVal(115, 0, p4b).toFixed(1)}px, ${lerpVal(40, 0, p4b).toFixed(1)}px, ${lerpVal(165, 38, p4b).toFixed(1)}px)`;
+        shopFloatingBuybox.style.transform = `translate3d(${lerpVal(55, 0, p4b).toFixed(1)}px, ${lerpVal(25, 0, p4b).toFixed(1)}px, 0) scale3d(${lerpVal(0.92, 1, p4b).toFixed(3)}, ${lerpVal(0.92, 1, p4b).toFixed(3)}, 1)`;
       }
 
       // 7. Layer 05: Full-Width 5-Channel Dock Strip (Amazon, Walmart, Etsy, TikTok Shop + VA) (0.76 -> 0.98)
@@ -1269,14 +1256,15 @@
         const p5 = easeOutBackVal(rangeProgress(p, 0.76, 0.98));
         const op5 = easeOutCubicVal(rangeProgress(p, 0.76, 0.90));
         shopLayerChannels.style.opacity = op5.toFixed(3);
-        shopLayerChannels.style.transform = `translate3d(0, ${lerpVal(45, 0, p5).toFixed(1)}px, ${lerpVal(140, 32, p5).toFixed(1)}px)`;
+        shopLayerChannels.style.transform = `translate3d(0, ${lerpVal(30, 0, p5).toFixed(1)}px, 0)`;
       }
 
-      if (shopLivePill) {
-        shopLivePill.innerHTML =
-          p > 0.86
-            ? "<i></i> STOREFRONT 100% LIVE · 4 CHANNELS + VA"
-            : "<i></i> ASSEMBLING 3D SHOP";
+      const isFullyLive = p > 0.86;
+      if (shopLivePill && isFullyLive !== prevShopLiveState) {
+        prevShopLiveState = isFullyLive;
+        shopLivePill.innerHTML = isFullyLive
+          ? "<i></i> STOREFRONT 100% LIVE · 4 CHANNELS + VA"
+          : "<i></i> ASSEMBLING 3D SHOP";
       }
     }
 
