@@ -134,17 +134,23 @@
     );
 
     function animateCursor() {
-      dotX += (mouseX - dotX) * 0.25;
-      dotY += (mouseY - dotY) * 0.25;
-      folX += (mouseX - folX) * 0.14;
-      folY += (mouseY - folY) * 0.14;
+      const dx = mouseX - dotX;
+      const dy = mouseY - dotY;
+      const fdx = mouseX - folX;
+      const fdy = mouseY - folY;
 
-      if (cursorDot) {
-        cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
+      if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05) {
+        dotX += dx * 0.28;
+        dotY += dy * 0.28;
+        if (cursorDot) {
+          cursorDot.style.transform = `translate3d(${dotX.toFixed(1)}px, ${dotY.toFixed(1)}px, 0) translate(-50%, -50%)`;
+        }
       }
-      if (hoverFollower) {
-        hoverFollower.style.left = `${folX}px`;
-        hoverFollower.style.top = `${folY}px`;
+      if (hoverFollower && hoverFollower.classList.contains("is-visible") && (Math.abs(fdx) > 0.1 || Math.abs(fdy) > 0.1)) {
+        folX += fdx * 0.16;
+        folY += fdy * 0.16;
+        hoverFollower.style.left = `${folX.toFixed(1)}px`;
+        hoverFollower.style.top = `${folY.toFixed(1)}px`;
       }
       requestAnimationFrame(animateCursor);
     }
@@ -351,10 +357,23 @@
   // FAQ 3D Cube references & smooth rotation state
   const faqCube3d = document.getElementById("faq-cube-3d");
   const faqSection = document.getElementById("faq");
+  let faqVisible = true;
   let faqBaseRotY = -28;
   let faqBaseRotX = -16;
   let faqCurRotY = -28;
   let faqCurRotX = -16;
+
+  if (faqSection && "IntersectionObserver" in window) {
+    const faqIo = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          faqVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.02 }
+    );
+    faqIo.observe(faqSection);
+  }
 
   // Continuous 3D Elliptical Orbit for the 5 Cards around the Home Tent Gate + FAQ 3D Cube!
   function updatePortalOrbit(timeMs) {
@@ -387,7 +406,7 @@
     }
 
     // B) Smooth Continuous 3D Rotation for the FAQ Section Cube (#faq-cube-3d)
-    if (faqCube3d) {
+    if (faqCube3d && faqVisible) {
       const slowSpin = now * 0.018;
       const targetY = faqBaseRotY + slowSpin + normMouseX * 22;
       const targetX = faqBaseRotX + Math.sin(now * 0.0012) * 12 - normMouseY * 16;
@@ -1041,28 +1060,32 @@
 
     updateBookingLiveSummary();
 
-    const bookingErr = document.getElementById("booking-err");
+    const bookingErr = document.getElementById("bk-err") || document.getElementById("booking-err");
     const bookingDone = document.getElementById("booking-done");
-    const bookingSummaryText = document.getElementById("booking-summary-text");
+    const bookingSummaryText = document.getElementById("booking-output") || document.getElementById("booking-summary-text");
     const gcalLink = document.getElementById("gcal-link");
-    const resetBookingBtn = document.getElementById("reset-booking");
+    const copyBookingBtn = document.getElementById("copy-booking");
+    const resetBookingBtn = document.getElementById("edit-booking") || document.getElementById("reset-booking");
 
     bookingForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = (document.getElementById("b-name")?.value || "").trim();
-      const brand = (document.getElementById("b-brand")?.value || "").trim() || "Brand Partner";
-      const email = (document.getElementById("b-email")?.value || "").trim();
-      const notes = (document.getElementById("b-notes")?.value || "").trim() || "Walk through marketplace execution & daily virtual assistance workflows.";
+      const name = (document.getElementById("bk-name")?.value || document.getElementById("b-name")?.value || "").trim();
+      const brand = (document.getElementById("bk-brand")?.value || document.getElementById("b-brand")?.value || "").trim() || "Brand Partner";
+      const email = (document.getElementById("bk-email")?.value || document.getElementById("b-email")?.value || "").trim();
+      const notes = (document.getElementById("bk-notes")?.value || document.getElementById("b-notes")?.value || "").trim() || "Walk through marketplace execution & daily virtual assistance workflows.";
 
       if (!name || !email || !email.includes("@")) {
-        if (bookingErr) bookingErr.hidden = false;
+        if (bookingErr) {
+          bookingErr.textContent = "Please enter your name and a valid work email address.";
+          bookingErr.hidden = false;
+        }
         return;
       }
       if (bookingErr) bookingErr.hidden = true;
 
       const chosenTopics = topicPills
         .filter((p) => p.classList.contains("is-selected"))
-        .map((p) => p.dataset.topic);
+        .map((p) => p.dataset.topic || p.textContent.trim());
 
       const summary = [
         "WIG WHAM — CONFIRMED DISCOVERY SESSION",
@@ -1087,6 +1110,10 @@
 
       bookingForm.hidden = true;
       if (bookingDone) bookingDone.hidden = false;
+    });
+
+    copyBookingBtn?.addEventListener("click", () => {
+      navigator.clipboard?.writeText(bookingSummaryText?.textContent || "");
     });
 
     resetBookingBtn?.addEventListener("click", () => {
@@ -1253,20 +1280,39 @@
       }
     }
 
-    function updateShopOnScroll() {
+    let lastShopP = -1;
+    let shopRafPending = false;
+
+    function updateShopOnScroll(force) {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
       const p = clampVal((scrollY - shopTrackTop) / shopScrollable, 0, 1);
+      if (!force && Math.abs(p - lastShopP) < 0.0004) return;
+      lastShopP = p;
       applyShopAssembly(p);
     }
 
-    window.addEventListener("scroll", updateShopOnScroll, { passive: true });
+    function requestShopUpdate(force) {
+      if (force) {
+        updateShopOnScroll(true);
+        return;
+      }
+      if (!shopRafPending) {
+        shopRafPending = true;
+        requestAnimationFrame(() => {
+          shopRafPending = false;
+          updateShopOnScroll(false);
+        });
+      }
+    }
+
+    window.addEventListener("scroll", () => requestShopUpdate(false), { passive: true });
     window.addEventListener("resize", () => {
       measureShopTrack();
-      updateShopOnScroll();
+      requestShopUpdate(true);
     });
     window.addEventListener("load", () => {
       measureShopTrack();
-      updateShopOnScroll();
+      requestShopUpdate(true);
     });
 
     if (shopViewport) {
@@ -1276,20 +1322,20 @@
           const r = shopViewport.getBoundingClientRect();
           const nx = (e.clientX - r.left) / r.width - 0.5;
           const ny = (e.clientY - r.top) / r.height - 0.5;
-          rigTiltY = nx * 9;
-          rigTiltX = -ny * 7;
-          updateShopOnScroll();
+          rigTiltY = nx * 8;
+          rigTiltX = -ny * 6;
+          requestShopUpdate(true);
         },
         { passive: true }
       );
       shopViewport.addEventListener("mouseleave", () => {
         rigTiltX = 0;
         rigTiltY = 0;
-        updateShopOnScroll();
+        requestShopUpdate(true);
       });
     }
 
-    // Clickable left step cards smoothly scroll to that build stage
+    // Clickable step cards smoothly scroll to that build stage
     shopStepCards.forEach((card, idx) => {
       card.addEventListener("click", () => {
         measureShopTrack();
@@ -1300,6 +1346,6 @@
     });
 
     measureShopTrack();
-    updateShopOnScroll();
+    requestShopUpdate(true);
   }
 })();
