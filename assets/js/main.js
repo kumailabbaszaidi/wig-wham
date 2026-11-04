@@ -1170,15 +1170,13 @@
     let prevShopStageIdx = -1;
     let prevShopLiveState = null;
 
-    function applyShopAssembly(rawP) {
-      // Finish 100% assembly at 84% of the scroll track so the completed 3D Storefront stays pinned with full spacing!
-      const p = clampVal(rawP / 0.84, 0, 1);
-
-      // 1. Full-Page 3D Camera Rig Rotation (Tilted Blueprint -> 100% Flat Full-Screen Flagship)
-      const camRotX = lerpVal(11, 0, p) + rigTiltX;
-      const camRotY = lerpVal(-5, 0, p) + rigTiltY;
-      const camScale = lerpVal(0.95, 1.0, p);
-      shopRig.style.transform = `rotateX(${camRotX.toFixed(2)}deg) rotateY(${camRotY.toFixed(2)}deg) scale3d(${camScale.toFixed(3)}, ${camScale.toFixed(3)}, 1)`;
+    function applyShopAssembly(p) {
+      // 1. Full-Viewport 3D Camera Rig Rotation (Isometric Blueprint -> Full-Screen Front View)
+      const camRotX = lerpVal(19, 3, p) + rigTiltX;
+      const camRotY = lerpVal(-12, 0, p) + rigTiltY;
+      const camRotZ = lerpVal(1.2, 0, p);
+      const camScale = lerpVal(0.92, 1.0, p);
+      shopRig.style.transform = `rotateX(${camRotX.toFixed(2)}deg) rotateY(${camRotY.toFixed(2)}deg) rotateZ(${camRotZ.toFixed(2)}deg) scale3d(${camScale.toFixed(3)}, ${camScale.toFixed(3)}, 1)`;
 
       // 2. Progress Meter & Active Step Card (only touch step DOM when stage changes)
       const pct = Math.round(lerpVal(12, 100, p));
@@ -1330,7 +1328,7 @@
     shopStepCards.forEach((card, idx) => {
       card.addEventListener("click", () => {
         measureShopTrack();
-        const stepP = (idx / Math.max(1, shopStepCards.length - 1)) * 0.84;
+        const stepP = idx / Math.max(1, shopStepCards.length - 1);
         const destY = shopTrackTop + stepP * shopScrollable;
         smoothScrollTo(destY);
       });
