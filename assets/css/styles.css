@@ -4014,3 +4014,897 @@ body.has-mouse-moved .cursor-dot {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ==========================================================================
+   PINNED 3D SCROLL-DRIVEN E-COMMERCE SHOP SETUP STAGE (#shop-setup-3d)
+   As the user scrolls, an entire 3D E-Commerce Storefront constructs
+   and assembles itself layer-by-layer in real-time 3D space!
+   ========================================================================== */
+.shop-builder-track {
+  position: relative;
+  height: 360vh;
+  background: var(--bg-black);
+  border-top: 1px solid var(--line-dark-strong);
+  border-bottom: 1px solid var(--line-dark-strong);
+}
+
+.shop-builder-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+}
+
+.shop-builder-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.shop-builder-grid-floor {
+  position: absolute;
+  inset: -30% -15%;
+  background-image:
+    linear-gradient(rgba(232, 223, 202, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 223, 202, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(1000px) rotateX(62deg) translateY(120px);
+  mask-image: radial-gradient(ellipse at 62% 52%, #000 18%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at 62% 52%, #000 18%, transparent 72%);
+}
+
+.shop-builder-glow {
+  position: absolute;
+  top: 50%;
+  left: 64%;
+  width: 680px;
+  height: 680px;
+  border-radius: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.28) 0%, rgba(255, 85, 0, 0.14) 42%, transparent 70%);
+  filter: blur(70px);
+  will-change: transform, opacity;
+}
+
+.shop-builder-container {
+  width: min(1440px, calc(100% - 3rem));
+  margin-inline: auto;
+  padding-top: 3.4rem;
+}
+
+.shop-builder-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.8rem;
+}
+
+.shop-builder-heading .hero-badge-pill {
+  margin-bottom: 0.65rem;
+}
+
+.shop-builder-heading .section-title {
+  font-size: clamp(2rem, 3.6vw, 3.35rem);
+  margin-bottom: 0;
+}
+
+.shop-build-meter {
+  min-width: 310px;
+  padding: 1rem 1.35rem;
+  border-radius: 20px;
+  background: rgba(14, 15, 22, 0.9);
+  border: 1px solid rgba(232, 223, 202, 0.26);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
+}
+
+.shop-build-meter__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.55rem;
+}
+
+.shop-build-meter__label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--champagne);
+}
+
+.shop-build-meter__pct {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--ember);
+}
+
+.shop-build-meter__bar {
+  width: 100%;
+  height: 7px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.shop-build-meter__fill {
+  width: 100%;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--crimson-bright), var(--ember), var(--champagne));
+  transform-origin: left center;
+  transform: scaleX(0.12);
+  will-change: transform;
+}
+
+.shop-builder-stage {
+  display: grid;
+  grid-template-columns: 0.37fr 0.63fr;
+  gap: 2.4rem;
+  align-items: center;
+}
+
+/* Left Column: 5 Interactive Step Sequencer Cards */
+.shop-steps-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.shop-step-card {
+  width: 100%;
+  text-align: left;
+  padding: 0.95rem 1.15rem;
+  border-radius: 18px;
+  background: rgba(12, 13, 19, 0.78);
+  border: 1px solid rgba(232, 223, 202, 0.14);
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  gap: 0.85rem;
+  align-items: center;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.shop-step-card:hover {
+  border-color: rgba(232, 223, 202, 0.38);
+  transform: translate3d(4px, 0, 0);
+}
+
+.shop-step-card.is-active {
+  background: linear-gradient(135deg, rgba(229, 9, 20, 0.2), rgba(14, 15, 22, 0.95));
+  border-color: var(--champagne);
+  box-shadow: 0 18px 40px rgba(229, 9, 20, 0.22);
+  transform: translate3d(6px, 0, 0);
+}
+
+.shop-step-card.is-done {
+  border-color: rgba(255, 85, 0, 0.42);
+}
+
+.shop-step-card__num {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(232, 223, 202, 0.08);
+  border: 1px solid rgba(232, 223, 202, 0.22);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--champagne);
+}
+
+.shop-step-card.is-active .shop-step-card__num,
+.shop-step-card.is-done .shop-step-card__num {
+  background: linear-gradient(135deg, var(--crimson-bright), var(--ember));
+  border-color: transparent;
+  color: var(--text-white);
+}
+
+.shop-step-card__body strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: var(--text-white);
+  margin-bottom: 0.15rem;
+}
+
+.shop-step-card__body p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.shop-step-card__status {
+  padding: 0.24rem 0.58rem;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(232, 223, 202, 0.18);
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--champagne-muted);
+}
+
+.shop-step-card.is-active .shop-step-card__status {
+  background: rgba(229, 9, 20, 0.28);
+  border-color: var(--champagne);
+  color: var(--text-white);
+}
+
+/* Right Column: True 3D Perspective Assembling E-Commerce Storefront */
+.shop-3d-viewport {
+  position: relative;
+  height: 540px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1650px;
+  user-select: none;
+}
+
+.shop-3d-rig {
+  position: relative;
+  width: 100%;
+  max-width: 790px;
+  height: 490px;
+  transform-style: preserve-3d;
+  transform: rotateX(24deg) rotateY(-18deg) rotateZ(2deg) scale3d(0.92, 0.92, 0.92);
+  will-change: transform;
+}
+
+.shop-3d-pedestal {
+  position: absolute;
+  inset: 24px;
+  border-radius: 32px;
+  background: rgba(0, 0, 0, 0.82);
+  transform: translate3d(0, 28px, -48px);
+  filter: blur(28px);
+  pointer-events: none;
+}
+
+.shop-layer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* LAYER 01: Base Storefront Chassis */
+.shop-layer--chassis {
+  border-radius: 26px;
+  background:
+    linear-gradient(155deg, rgba(18, 20, 29, 0.96) 0%, rgba(8, 9, 14, 0.98) 100%);
+  border: 1.5px solid rgba(232, 223, 202, 0.34);
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.78),
+    inset 0 0 40px rgba(229, 9, 20, 0.12);
+  overflow: hidden;
+}
+
+.shop-chassis__topbar {
+  height: 42px;
+  padding: 0 1.15rem;
+  background: rgba(5, 5, 7, 0.9);
+  border-bottom: 1px solid rgba(232, 223, 202, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.shop-chassis__dots {
+  display: flex;
+  gap: 6px;
+}
+
+.shop-chassis__dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(232, 223, 202, 0.26);
+}
+
+.shop-chassis__dots span:first-child {
+  background: var(--crimson-bright);
+}
+
+.shop-chassis__dots span:nth-child(2) {
+  background: var(--ember);
+}
+
+.shop-chassis__url {
+  padding: 0.24rem 0.9rem;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(232, 223, 202, 0.14);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--champagne-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.shop-url-lock {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.shop-chassis__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--champagne);
+}
+
+.shop-chassis__status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 8px var(--ember);
+}
+
+.shop-chassis__blueprint {
+  position: absolute;
+  inset: 42px 0 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-image:
+    linear-gradient(rgba(232, 223, 202, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 223, 202, 0.05) 1px, transparent 1px);
+  background-size: 38px 38px;
+}
+
+.shop-chassis__blueprint span {
+  border-right: 1px dashed rgba(229, 9, 20, 0.18);
+}
+
+/* LAYER 02: 3D Brand Header Canopy + Hero Campaign Billboard */
+.shop-layer--hero {
+  padding: 52px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shop-store-nav {
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 14px;
+  background: rgba(14, 16, 24, 0.95);
+  border: 1px solid rgba(232, 223, 202, 0.26);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.shop-store-nav__brand img {
+  height: 20px;
+  width: auto;
+}
+
+.shop-store-nav__pills {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.shop-store-nav__pills span {
+  padding: 0.22rem 0.62rem;
+  border-radius: 99px;
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.shop-store-nav__pills span.is-on {
+  background: rgba(229, 9, 20, 0.24);
+  border: 1px solid rgba(232, 223, 202, 0.3);
+  color: var(--text-white);
+}
+
+.shop-store-nav__search {
+  padding: 0.24rem 0.75rem;
+  border-radius: 99px;
+  background: rgba(5, 5, 7, 0.8);
+  border: 1px solid rgba(232, 223, 202, 0.18);
+  font-size: 0.66rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shop-store-nav__search em {
+  font-style: normal;
+  color: var(--champagne);
+}
+
+.shop-hero-banner {
+  position: relative;
+  height: 156px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(232, 223, 202, 0.32);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1.15rem 1.35rem;
+}
+
+.shop-hero-banner__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.shop-hero-banner__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(95deg, rgba(5, 5, 7, 0.94) 15%, rgba(5, 5, 7, 0.62) 65%, rgba(229, 9, 20, 0.28) 100%);
+  z-index: -1;
+}
+
+.shop-hero-banner__content {
+  max-width: 420px;
+}
+
+.shop-hero-banner__tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  background: rgba(229, 9, 20, 0.28);
+  border: 1px solid rgba(232, 223, 202, 0.34);
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--champagne);
+  margin-bottom: 0.35rem;
+}
+
+.shop-hero-banner__content h3 {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: var(--text-white);
+  margin-bottom: 0.2rem;
+}
+
+.shop-hero-banner__content p {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.shop-hero-banner__stat {
+  padding: 0.65rem 0.95rem;
+  border-radius: 14px;
+  background: rgba(5, 5, 7, 0.88);
+  border: 1px solid var(--champagne);
+  text-align: right;
+}
+
+.shop-hero-banner__stat span {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--champagne);
+}
+
+.shop-hero-banner__stat strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--ember);
+}
+
+/* LAYER 03: 3D Product Showcase Shelf (3 Floating 3D SKU Cards) */
+.shop-layer--products {
+  top: 274px;
+  left: 18px;
+  right: 18px;
+  bottom: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.shop-sku-card {
+  border-radius: 16px;
+  background: rgba(15, 17, 25, 0.96);
+  border: 1px solid rgba(232, 223, 202, 0.28);
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  will-change: transform, opacity;
+}
+
+.shop-sku-card__media {
+  position: relative;
+  height: 92px;
+  overflow: hidden;
+}
+
+.shop-sku-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shop-sku-card__badge {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  padding: 0.18rem 0.5rem;
+  border-radius: 99px;
+  background: rgba(5, 5, 7, 0.88);
+  border: 1px solid rgba(232, 223, 202, 0.34);
+  font-family: var(--font-display);
+  font-size: 0.56rem;
+  font-weight: 800;
+  color: var(--champagne);
+}
+
+.shop-sku-card__badge--gold {
+  background: rgba(229, 9, 20, 0.85);
+  color: var(--text-white);
+}
+
+.shop-sku-card__info {
+  padding: 0.6rem 0.72rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.26rem;
+  flex: 1;
+}
+
+.shop-sku-card__meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+}
+
+.shop-sku-card__meta strong {
+  color: var(--champagne);
+}
+
+.shop-sku-card__info h4 {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--text-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shop-sku-card__swatches {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.shop-sku-card__swatches i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.shop-sku-card__swatches span {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+.shop-sku-card__price-row {
+  margin-top: auto;
+  padding-top: 0.28rem;
+  border-top: 1px solid rgba(232, 223, 202, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shop-sku-card__price-row strong {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--text-white);
+}
+
+.shop-sku-card__prime {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+/* LAYER 04: 3D Floating Buy-Box Checkout Dock & SEO HUD */
+.shop-floating-seo {
+  position: absolute;
+  left: -26px;
+  bottom: 36px;
+  width: 235px;
+  padding: 0.85rem 1rem;
+  border-radius: 18px;
+  background: rgba(9, 10, 15, 0.96);
+  border: 1.5px solid var(--champagne);
+  box-shadow: 0 26px 55px rgba(0, 0, 0, 0.82);
+  will-change: transform, opacity;
+}
+
+.shop-floating-seo__head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.5rem;
+}
+
+.shop-seo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+}
+
+.shop-floating-seo__head strong {
+  font-family: var(--font-display);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--champagne);
+}
+
+.shop-floating-seo__tags {
+  display: flex;
+  flex-direction: column;
+  gap: 0.26rem;
+}
+
+.shop-floating-seo__tags span {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.shop-floating-buybox {
+  position: absolute;
+  right: -28px;
+  top: 108px;
+  width: 245px;
+  padding: 0.95rem 1.05rem;
+  border-radius: 20px;
+  background: linear-gradient(155deg, rgba(24, 10, 14, 0.96), rgba(9, 10, 16, 0.98));
+  border: 1.5px solid var(--champagne);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.85);
+  will-change: transform, opacity;
+}
+
+.shop-buybox__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.55rem;
+}
+
+.shop-buybox__top span {
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--champagne);
+}
+
+.shop-buybox__top strong {
+  padding: 0.16rem 0.45rem;
+  border-radius: 99px;
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 800;
+}
+
+.shop-buybox__price {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.shop-buybox__price small {
+  display: block;
+  font-size: 0.56rem;
+  color: var(--text-muted);
+}
+
+.shop-buybox__price strong {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--text-white);
+}
+
+.shop-buybox__vel {
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: var(--ember);
+}
+
+.shop-buybox__btn {
+  padding: 0.52rem 0.75rem;
+  border-radius: 99px;
+  background: linear-gradient(135deg, var(--crimson-bright), var(--ember));
+  color: var(--text-white);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shop-buybox__btn em {
+  font-style: normal;
+}
+
+/* LAYER 05: 3D Multi-Channel Satellite Nodes + VA Operations Crown */
+.shop-sat {
+  position: absolute;
+  padding: 0.52rem 0.85rem;
+  border-radius: 14px;
+  background: rgba(8, 9, 14, 0.95);
+  border: 1.5px solid rgba(232, 223, 202, 0.42);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  will-change: transform, opacity;
+}
+
+.shop-sat__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--crimson-bright);
+  box-shadow: 0 0 10px var(--ember);
+  flex-shrink: 0;
+}
+
+.shop-sat__dot--gold {
+  background: var(--champagne);
+  box-shadow: 0 0 12px var(--champagne);
+}
+
+.shop-sat small {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.54rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--champagne-muted);
+}
+
+.shop-sat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--text-white);
+  white-space: nowrap;
+}
+
+.shop-sat--amz {
+  top: -18px;
+  left: 24px;
+}
+
+.shop-sat--wmt {
+  top: -18px;
+  right: 36px;
+}
+
+.shop-sat--ets {
+  bottom: -18px;
+  left: 60px;
+}
+
+.shop-sat--tts {
+  bottom: -18px;
+  right: 40px;
+}
+
+.shop-sat--va {
+  top: -24px;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  background: linear-gradient(135deg, rgba(229, 9, 20, 0.92), rgba(255, 85, 0, 0.9));
+  border-color: var(--champagne);
+}
+
+@media (max-width: 1120px) {
+  .shop-builder-stage {
+    grid-template-columns: 1fr;
+  }
+  .shop-steps-hud {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+  }
+  .shop-step-card {
+    grid-template-columns: 1fr;
+    padding: 0.65rem;
+  }
+  .shop-step-card__body p,
+  .shop-step-card__status {
+    display: none;
+  }
+  .shop-3d-viewport {
+    height: 460px;
+  }
+}
+
+@media (max-width: 720px) {
+  .shop-builder-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .shop-build-meter {
+    width: 100%;
+    min-width: 0;
+  }
+  .shop-steps-hud {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .shop-floating-seo,
+  .shop-floating-buybox {
+    display: none;
+  }
+  .shop-layer--products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .shop-sku-card--3 {
+    display: none;
+  }
+}

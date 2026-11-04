@@ -1095,4 +1095,195 @@
       bookingForm.hidden = false;
     });
   }
+
+  // =========================================================================
+  // 16. PINNED 3D SCROLL-DRIVEN E-COMMERCE SHOP SETUP ENGINE (#shop-setup-3d)
+  // =========================================================================
+  const shopTrack = document.getElementById("shop-setup-3d");
+  const shopRig = document.getElementById("shop-3d-rig");
+  const shopViewport = document.getElementById("shop-3d-viewport");
+  const shopLayerChassis = document.getElementById("shop-layer-chassis");
+  const shopLayerHero = document.getElementById("shop-layer-hero");
+  const shopSku1 = document.getElementById("shop-sku-1");
+  const shopSku2 = document.getElementById("shop-sku-2");
+  const shopSku3 = document.getElementById("shop-sku-3");
+  const shopFloatingSeo = document.getElementById("shop-floating-seo");
+  const shopFloatingBuybox = document.getElementById("shop-floating-buybox");
+  const shopLayerChannels = document.getElementById("shop-layer-channels");
+  const shopStageBadge = document.getElementById("shop-stage-badge");
+  const shopBuildPct = document.getElementById("shop-build-pct");
+  const shopBuildFill = document.getElementById("shop-build-fill");
+  const shopLivePill = document.getElementById("shop-chassis-live-pill");
+  const shopStepCards = Array.from(document.querySelectorAll(".shop-step-card[data-shop-step]"));
+
+  if (shopTrack && shopRig) {
+    let targetShopP = 0;
+    let smoothShopP = 0;
+    let rigTiltX = 0;
+    let rigTiltY = 0;
+
+    const STAGE_LABELS = [
+      "STAGE 01 / 3D STOREFRONT FOUNDATION",
+      "STAGE 02 / BRAND CANOPY & HERO BILLBOARD",
+      "STAGE 03 / 3D PRODUCT SHELF & SKUS",
+      "STAGE 04 / BUY-BOX & 13-TAG SEO ENGINE",
+      "STAGE 05 / 4-CHANNEL SYNC + DAILY VA LIVE",
+    ];
+
+    function rangeProgress(p, start, end) {
+      return clamp((p - start) / (end - start), 0, 1);
+    }
+
+    function easeOutBack(t) {
+      const c1 = 1.45;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    }
+
+    function computeShopTargetProgress() {
+      const rect = shopTrack.getBoundingClientRect();
+      const scrollable = Math.max(1, shopTrack.offsetHeight - window.innerHeight);
+      targetShopP = clamp(-rect.top / scrollable, 0, 1);
+    }
+
+    window.addEventListener("scroll", computeShopTargetProgress, { passive: true });
+    window.addEventListener("resize", computeShopTargetProgress);
+    computeShopTargetProgress();
+
+    if (shopViewport) {
+      shopViewport.addEventListener(
+        "mousemove",
+        (e) => {
+          const r = shopViewport.getBoundingClientRect();
+          const nx = (e.clientX - r.left) / r.width - 0.5;
+          const ny = (e.clientY - r.top) / r.height - 0.5;
+          rigTiltY = nx * 10;
+          rigTiltX = -ny * 8;
+        },
+        { passive: true }
+      );
+      shopViewport.addEventListener("mouseleave", () => {
+        rigTiltX = 0;
+        rigTiltY = 0;
+      });
+    }
+
+    // Clickable left step cards smoothly scroll to that build stage
+    shopStepCards.forEach((card, idx) => {
+      card.addEventListener("click", () => {
+        const scrollable = Math.max(1, shopTrack.offsetHeight - window.innerHeight);
+        const trackTop = window.scrollY + shopTrack.getBoundingClientRect().top;
+        const stepP = idx / Math.max(1, shopStepCards.length - 1);
+        const destY = trackTop + stepP * scrollable;
+        if (lenis) {
+          lenis.scrollTo(destY, { duration: 1.05 });
+        } else {
+          window.scrollTo({ top: destY, behavior: "smooth" });
+        }
+      });
+    });
+
+    function renderShopAssembly() {
+      smoothShopP = lerp(smoothShopP, targetShopP, 0.14);
+      const p = smoothShopP;
+
+      // 1. Overall 3D Camera Rig Rotation (Isometric Blueprint -> Hero Showcase)
+      const camRotX = lerp(25, 7, p) + rigTiltX;
+      const camRotY = lerp(-19, -5, p) + rigTiltY;
+      const camRotZ = lerp(2.2, 0, p);
+      const camScale = lerp(0.91, 1.0, p);
+      shopRig.style.transform = `rotateX(${camRotX.toFixed(2)}deg) rotateY(${camRotY.toFixed(2)}deg) rotateZ(${camRotZ.toFixed(2)}deg) scale3d(${camScale.toFixed(3)}, ${camScale.toFixed(3)}, 1)`;
+
+      // 2. Progress Meter & Active Step Card
+      const pct = Math.round(lerp(12, 100, p));
+      if (shopBuildPct) shopBuildPct.textContent = `${pct}%`;
+      if (shopBuildFill) shopBuildFill.style.transform = `scaleX(${(pct / 100).toFixed(3)})`;
+
+      const stageIdx = Math.min(4, Math.floor(p * 4.99));
+      if (shopStageBadge) shopStageBadge.textContent = STAGE_LABELS[stageIdx];
+
+      shopStepCards.forEach((card, idx) => {
+        card.classList.toggle("is-active", idx === stageIdx);
+        card.classList.toggle("is-done", idx < stageIdx);
+        const st = card.querySelector(".shop-step-card__status");
+        if (st) {
+          if (idx < stageIdx) st.textContent = "LOCKED";
+          else if (idx === stageIdx) st.textContent = idx === 4 ? "100% LIVE" : "ASSEMBLING";
+          else st.textContent = "QUEUED";
+        }
+      });
+
+      // 3. Layer 01: Base Storefront Chassis (0.00 -> 0.20)
+      if (shopLayerChassis) {
+        const p1 = easeOutCubic(rangeProgress(p, 0.0, 0.2));
+        const sc1 = lerp(0.88, 1, p1);
+        shopLayerChassis.style.opacity = lerp(0.45, 1, p1).toFixed(3);
+        shopLayerChassis.style.transform = `translate3d(0, ${lerp(28, 0, p1).toFixed(1)}px, 0px) scale3d(${sc1.toFixed(3)}, ${sc1.toFixed(3)}, 1)`;
+      }
+
+      // 4. Layer 02: 3D Brand Canopy + Hero Campaign Billboard (0.12 -> 0.40)
+      if (shopLayerHero) {
+        const p2 = easeOutBack(rangeProgress(p, 0.12, 0.40));
+        const op2 = easeOutCubic(rangeProgress(p, 0.12, 0.32));
+        const y2 = lerp(-125, 0, p2);
+        const z2 = lerp(145, 28, p2);
+        const rx2 = lerp(26, 0, p2);
+        shopLayerHero.style.opacity = op2.toFixed(3);
+        shopLayerHero.style.transform = `translate3d(0, ${y2.toFixed(1)}px, ${z2.toFixed(1)}px) rotateX(${rx2.toFixed(1)}deg)`;
+      }
+
+      // 5. Layer 03: 3D Product Showcase Shelf — 3 Staggered SKU Cards (0.34 -> 0.66)
+      if (shopSku1) {
+        const p3a = easeOutBack(rangeProgress(p, 0.34, 0.56));
+        const op3a = easeOutCubic(rangeProgress(p, 0.34, 0.48));
+        shopSku1.style.opacity = op3a.toFixed(3);
+        shopSku1.style.transform = `translate3d(${lerp(-135, 0, p3a).toFixed(1)}px, ${lerp(85, 0, p3a).toFixed(1)}px, ${lerp(180, 46, p3a).toFixed(1)}px) rotateY(${lerp(-24, 0, p3a).toFixed(1)}deg)`;
+      }
+      if (shopSku2) {
+        const p3b = easeOutBack(rangeProgress(p, 0.40, 0.62));
+        const op3b = easeOutCubic(rangeProgress(p, 0.40, 0.54));
+        shopSku2.style.opacity = op3b.toFixed(3);
+        shopSku2.style.transform = `translate3d(0px, ${lerp(115, 0, p3b).toFixed(1)}px, ${lerp(210, 54, p3b).toFixed(1)}px) rotateX(${lerp(-22, 0, p3b).toFixed(1)}deg)`;
+      }
+      if (shopSku3) {
+        const p3c = easeOutBack(rangeProgress(p, 0.46, 0.68));
+        const op3c = easeOutCubic(rangeProgress(p, 0.46, 0.60));
+        shopSku3.style.opacity = op3c.toFixed(3);
+        shopSku3.style.transform = `translate3d(${lerp(135, 0, p3c).toFixed(1)}px, ${lerp(85, 0, p3c).toFixed(1)}px, ${lerp(180, 46, p3c).toFixed(1)}px) rotateY(${lerp(24, 0, p3c).toFixed(1)}deg)`;
+      }
+
+      // 6. Layer 04: Floating 3D SEO Matrix & Buy-Box Checkout Dock (0.60 -> 0.84)
+      if (shopFloatingSeo) {
+        const p4a = easeOutBack(rangeProgress(p, 0.60, 0.80));
+        const op4a = easeOutCubic(rangeProgress(p, 0.60, 0.74));
+        shopFloatingSeo.style.opacity = op4a.toFixed(3);
+        shopFloatingSeo.style.transform = `translate3d(${lerp(-120, 0, p4a).toFixed(1)}px, ${lerp(40, 0, p4a).toFixed(1)}px, ${lerp(195, 84, p4a).toFixed(1)}px)`;
+      }
+      if (shopFloatingBuybox) {
+        const p4b = easeOutBack(rangeProgress(p, 0.65, 0.85));
+        const op4b = easeOutCubic(rangeProgress(p, 0.65, 0.78));
+        shopFloatingBuybox.style.opacity = op4b.toFixed(3);
+        shopFloatingBuybox.style.transform = `translate3d(${lerp(120, 0, p4b).toFixed(1)}px, ${lerp(-35, 0, p4b).toFixed(1)}px, ${lerp(210, 92, p4b).toFixed(1)}px)`;
+      }
+
+      // 7. Layer 05: Multi-Channel Satellites (Amazon, Walmart, Etsy, TikTok Shop + VA Crown) (0.78 -> 0.98)
+      if (shopLayerChannels) {
+        const p5 = easeOutBack(rangeProgress(p, 0.78, 0.98));
+        const op5 = easeOutCubic(rangeProgress(p, 0.78, 0.92));
+        shopLayerChannels.style.opacity = op5.toFixed(3);
+        shopLayerChannels.style.transform = `translate3d(0, ${lerp(30, 0, p5).toFixed(1)}px, ${lerp(185, 118, p5).toFixed(1)}px) scale3d(${lerp(0.82, 1, p5).toFixed(3)}, ${lerp(0.82, 1, p5).toFixed(3)}, 1)`;
+      }
+
+      if (shopLivePill) {
+        shopLivePill.innerHTML =
+          p > 0.86
+            ? "<i></i> STOREFRONT 100% LIVE · 4 CHANNELS + VA"
+            : "<i></i> ASSEMBLING 3D SHOP";
+      }
+
+      requestAnimationFrame(renderShopAssembly);
+    }
+
+    requestAnimationFrame(renderShopAssembly);
+  }
 })();
