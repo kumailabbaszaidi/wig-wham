@@ -1117,10 +1117,10 @@
   const shopStepCards = Array.from(document.querySelectorAll(".shop-step-card[data-shop-step]"));
 
   if (shopTrack && shopRig) {
-    let targetShopP = 0;
-    let smoothShopP = 0;
     let rigTiltX = 0;
     let rigTiltY = 0;
+    let shopTrackTop = 0;
+    let shopScrollable = 1;
 
     const STAGE_LABELS = [
       "STAGE 01 / 3D STOREFRONT FOUNDATION",
@@ -1130,72 +1130,43 @@
       "STAGE 05 / 4-CHANNEL SYNC + DAILY VA LIVE",
     ];
 
-    function rangeProgress(p, start, end) {
-      return clamp((p - start) / (end - start), 0, 1);
+    function clampVal(v, min, max) {
+      return Math.min(max, Math.max(min, v));
     }
 
-    function easeOutBack(t) {
-      const c1 = 1.45;
+    function lerpVal(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function easeOutCubicVal(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function easeOutBackVal(t) {
+      const c1 = 1.35;
       const c3 = c1 + 1;
       return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
     }
 
-    function computeShopTargetProgress() {
-      const rect = shopTrack.getBoundingClientRect();
-      const scrollable = Math.max(1, shopTrack.offsetHeight - window.innerHeight);
-      targetShopP = clamp(-rect.top / scrollable, 0, 1);
+    function rangeProgress(p, start, end) {
+      return clampVal((p - start) / (end - start), 0, 1);
     }
 
-    window.addEventListener("scroll", computeShopTargetProgress, { passive: true });
-    window.addEventListener("resize", computeShopTargetProgress);
-    computeShopTargetProgress();
-
-    if (shopViewport) {
-      shopViewport.addEventListener(
-        "mousemove",
-        (e) => {
-          const r = shopViewport.getBoundingClientRect();
-          const nx = (e.clientX - r.left) / r.width - 0.5;
-          const ny = (e.clientY - r.top) / r.height - 0.5;
-          rigTiltY = nx * 10;
-          rigTiltX = -ny * 8;
-        },
-        { passive: true }
-      );
-      shopViewport.addEventListener("mouseleave", () => {
-        rigTiltX = 0;
-        rigTiltY = 0;
-      });
+    function measureShopTrack() {
+      shopTrackTop = getPageTop(shopTrack);
+      shopScrollable = Math.max(1, shopTrack.offsetHeight - window.innerHeight);
     }
 
-    // Clickable left step cards smoothly scroll to that build stage
-    shopStepCards.forEach((card, idx) => {
-      card.addEventListener("click", () => {
-        const scrollable = Math.max(1, shopTrack.offsetHeight - window.innerHeight);
-        const trackTop = window.scrollY + shopTrack.getBoundingClientRect().top;
-        const stepP = idx / Math.max(1, shopStepCards.length - 1);
-        const destY = trackTop + stepP * scrollable;
-        if (lenis) {
-          lenis.scrollTo(destY, { duration: 1.05 });
-        } else {
-          window.scrollTo({ top: destY, behavior: "smooth" });
-        }
-      });
-    });
-
-    function renderShopAssembly() {
-      smoothShopP = lerp(smoothShopP, targetShopP, 0.14);
-      const p = smoothShopP;
-
+    function applyShopAssembly(p) {
       // 1. Overall 3D Camera Rig Rotation (Isometric Blueprint -> Hero Showcase)
-      const camRotX = lerp(25, 7, p) + rigTiltX;
-      const camRotY = lerp(-19, -5, p) + rigTiltY;
-      const camRotZ = lerp(2.2, 0, p);
-      const camScale = lerp(0.91, 1.0, p);
+      const camRotX = lerpVal(25, 7, p) + rigTiltX;
+      const camRotY = lerpVal(-19, -5, p) + rigTiltY;
+      const camRotZ = lerpVal(2.2, 0, p);
+      const camScale = lerpVal(0.91, 1.0, p);
       shopRig.style.transform = `rotateX(${camRotX.toFixed(2)}deg) rotateY(${camRotY.toFixed(2)}deg) rotateZ(${camRotZ.toFixed(2)}deg) scale3d(${camScale.toFixed(3)}, ${camScale.toFixed(3)}, 1)`;
 
       // 2. Progress Meter & Active Step Card
-      const pct = Math.round(lerp(12, 100, p));
+      const pct = Math.round(lerpVal(12, 100, p));
       if (shopBuildPct) shopBuildPct.textContent = `${pct}%`;
       if (shopBuildFill) shopBuildFill.style.transform = `scaleX(${(pct / 100).toFixed(3)})`;
 
@@ -1215,63 +1186,63 @@
 
       // 3. Layer 01: Base Storefront Chassis (0.00 -> 0.20)
       if (shopLayerChassis) {
-        const p1 = easeOutCubic(rangeProgress(p, 0.0, 0.2));
-        const sc1 = lerp(0.88, 1, p1);
-        shopLayerChassis.style.opacity = lerp(0.45, 1, p1).toFixed(3);
-        shopLayerChassis.style.transform = `translate3d(0, ${lerp(28, 0, p1).toFixed(1)}px, 0px) scale3d(${sc1.toFixed(3)}, ${sc1.toFixed(3)}, 1)`;
+        const p1 = easeOutCubicVal(rangeProgress(p, 0.0, 0.2));
+        const sc1 = lerpVal(0.9, 1, p1);
+        shopLayerChassis.style.opacity = lerpVal(0.65, 1, p1).toFixed(3);
+        shopLayerChassis.style.transform = `translate3d(0, ${lerpVal(22, 0, p1).toFixed(1)}px, 0px) scale3d(${sc1.toFixed(3)}, ${sc1.toFixed(3)}, 1)`;
       }
 
-      // 4. Layer 02: 3D Brand Canopy + Hero Campaign Billboard (0.12 -> 0.40)
+      // 4. Layer 02: 3D Brand Canopy + Hero Campaign Billboard (0.10 -> 0.38)
       if (shopLayerHero) {
-        const p2 = easeOutBack(rangeProgress(p, 0.12, 0.40));
-        const op2 = easeOutCubic(rangeProgress(p, 0.12, 0.32));
-        const y2 = lerp(-125, 0, p2);
-        const z2 = lerp(145, 28, p2);
-        const rx2 = lerp(26, 0, p2);
+        const p2 = easeOutBackVal(rangeProgress(p, 0.10, 0.38));
+        const op2 = easeOutCubicVal(rangeProgress(p, 0.10, 0.28));
+        const y2 = lerpVal(-120, 0, p2);
+        const z2 = lerpVal(135, 24, p2);
+        const rx2 = lerpVal(24, 0, p2);
         shopLayerHero.style.opacity = op2.toFixed(3);
         shopLayerHero.style.transform = `translate3d(0, ${y2.toFixed(1)}px, ${z2.toFixed(1)}px) rotateX(${rx2.toFixed(1)}deg)`;
       }
 
-      // 5. Layer 03: 3D Product Showcase Shelf — 3 Staggered SKU Cards (0.34 -> 0.66)
+      // 5. Layer 03: 3D Product Showcase Shelf — 3 Staggered SKU Cards (0.32 -> 0.65)
       if (shopSku1) {
-        const p3a = easeOutBack(rangeProgress(p, 0.34, 0.56));
-        const op3a = easeOutCubic(rangeProgress(p, 0.34, 0.48));
+        const p3a = easeOutBackVal(rangeProgress(p, 0.32, 0.54));
+        const op3a = easeOutCubicVal(rangeProgress(p, 0.32, 0.46));
         shopSku1.style.opacity = op3a.toFixed(3);
-        shopSku1.style.transform = `translate3d(${lerp(-135, 0, p3a).toFixed(1)}px, ${lerp(85, 0, p3a).toFixed(1)}px, ${lerp(180, 46, p3a).toFixed(1)}px) rotateY(${lerp(-24, 0, p3a).toFixed(1)}deg)`;
+        shopSku1.style.transform = `translate3d(${lerpVal(-130, 0, p3a).toFixed(1)}px, ${lerpVal(80, 0, p3a).toFixed(1)}px, ${lerpVal(165, 42, p3a).toFixed(1)}px) rotateY(${lerpVal(-22, 0, p3a).toFixed(1)}deg)`;
       }
       if (shopSku2) {
-        const p3b = easeOutBack(rangeProgress(p, 0.40, 0.62));
-        const op3b = easeOutCubic(rangeProgress(p, 0.40, 0.54));
+        const p3b = easeOutBackVal(rangeProgress(p, 0.38, 0.60));
+        const op3b = easeOutCubicVal(rangeProgress(p, 0.38, 0.52));
         shopSku2.style.opacity = op3b.toFixed(3);
-        shopSku2.style.transform = `translate3d(0px, ${lerp(115, 0, p3b).toFixed(1)}px, ${lerp(210, 54, p3b).toFixed(1)}px) rotateX(${lerp(-22, 0, p3b).toFixed(1)}deg)`;
+        shopSku2.style.transform = `translate3d(0px, ${lerpVal(105, 0, p3b).toFixed(1)}px, ${lerpVal(190, 48, p3b).toFixed(1)}px) rotateX(${lerpVal(-20, 0, p3b).toFixed(1)}deg)`;
       }
       if (shopSku3) {
-        const p3c = easeOutBack(rangeProgress(p, 0.46, 0.68));
-        const op3c = easeOutCubic(rangeProgress(p, 0.46, 0.60));
+        const p3c = easeOutBackVal(rangeProgress(p, 0.44, 0.66));
+        const op3c = easeOutCubicVal(rangeProgress(p, 0.44, 0.58));
         shopSku3.style.opacity = op3c.toFixed(3);
-        shopSku3.style.transform = `translate3d(${lerp(135, 0, p3c).toFixed(1)}px, ${lerp(85, 0, p3c).toFixed(1)}px, ${lerp(180, 46, p3c).toFixed(1)}px) rotateY(${lerp(24, 0, p3c).toFixed(1)}deg)`;
+        shopSku3.style.transform = `translate3d(${lerpVal(130, 0, p3c).toFixed(1)}px, ${lerpVal(80, 0, p3c).toFixed(1)}px, ${lerpVal(165, 42, p3c).toFixed(1)}px) rotateY(${lerpVal(22, 0, p3c).toFixed(1)}deg)`;
       }
 
-      // 6. Layer 04: Floating 3D SEO Matrix & Buy-Box Checkout Dock (0.60 -> 0.84)
+      // 6. Layer 04: Floating 3D SEO Matrix & Buy-Box Checkout Dock (0.58 -> 0.84)
       if (shopFloatingSeo) {
-        const p4a = easeOutBack(rangeProgress(p, 0.60, 0.80));
-        const op4a = easeOutCubic(rangeProgress(p, 0.60, 0.74));
+        const p4a = easeOutBackVal(rangeProgress(p, 0.58, 0.78));
+        const op4a = easeOutCubicVal(rangeProgress(p, 0.58, 0.72));
         shopFloatingSeo.style.opacity = op4a.toFixed(3);
-        shopFloatingSeo.style.transform = `translate3d(${lerp(-120, 0, p4a).toFixed(1)}px, ${lerp(40, 0, p4a).toFixed(1)}px, ${lerp(195, 84, p4a).toFixed(1)}px)`;
+        shopFloatingSeo.style.transform = `translate3d(${lerpVal(-115, 0, p4a).toFixed(1)}px, ${lerpVal(35, 0, p4a).toFixed(1)}px, ${lerpVal(175, 76, p4a).toFixed(1)}px)`;
       }
       if (shopFloatingBuybox) {
-        const p4b = easeOutBack(rangeProgress(p, 0.65, 0.85));
-        const op4b = easeOutCubic(rangeProgress(p, 0.65, 0.78));
+        const p4b = easeOutBackVal(rangeProgress(p, 0.63, 0.84));
+        const op4b = easeOutCubicVal(rangeProgress(p, 0.63, 0.76));
         shopFloatingBuybox.style.opacity = op4b.toFixed(3);
-        shopFloatingBuybox.style.transform = `translate3d(${lerp(120, 0, p4b).toFixed(1)}px, ${lerp(-35, 0, p4b).toFixed(1)}px, ${lerp(210, 92, p4b).toFixed(1)}px)`;
+        shopFloatingBuybox.style.transform = `translate3d(${lerpVal(115, 0, p4b).toFixed(1)}px, ${lerpVal(-30, 0, p4b).toFixed(1)}px, ${lerpVal(190, 84, p4b).toFixed(1)}px)`;
       }
 
-      // 7. Layer 05: Multi-Channel Satellites (Amazon, Walmart, Etsy, TikTok Shop + VA Crown) (0.78 -> 0.98)
+      // 7. Layer 05: Multi-Channel Satellites (Amazon, Walmart, Etsy, TikTok Shop + VA Crown) (0.76 -> 0.98)
       if (shopLayerChannels) {
-        const p5 = easeOutBack(rangeProgress(p, 0.78, 0.98));
-        const op5 = easeOutCubic(rangeProgress(p, 0.78, 0.92));
+        const p5 = easeOutBackVal(rangeProgress(p, 0.76, 0.98));
+        const op5 = easeOutCubicVal(rangeProgress(p, 0.76, 0.90));
         shopLayerChannels.style.opacity = op5.toFixed(3);
-        shopLayerChannels.style.transform = `translate3d(0, ${lerp(30, 0, p5).toFixed(1)}px, ${lerp(185, 118, p5).toFixed(1)}px) scale3d(${lerp(0.82, 1, p5).toFixed(3)}, ${lerp(0.82, 1, p5).toFixed(3)}, 1)`;
+        shopLayerChannels.style.transform = `translate3d(0, ${lerpVal(28, 0, p5).toFixed(1)}px, ${lerpVal(170, 108, p5).toFixed(1)}px) scale3d(${lerpVal(0.84, 1, p5).toFixed(3)}, ${lerpVal(0.84, 1, p5).toFixed(3)}, 1)`;
       }
 
       if (shopLivePill) {
@@ -1280,10 +1251,55 @@
             ? "<i></i> STOREFRONT 100% LIVE · 4 CHANNELS + VA"
             : "<i></i> ASSEMBLING 3D SHOP";
       }
-
-      requestAnimationFrame(renderShopAssembly);
     }
 
-    requestAnimationFrame(renderShopAssembly);
+    function updateShopOnScroll() {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      const p = clampVal((scrollY - shopTrackTop) / shopScrollable, 0, 1);
+      applyShopAssembly(p);
+    }
+
+    window.addEventListener("scroll", updateShopOnScroll, { passive: true });
+    window.addEventListener("resize", () => {
+      measureShopTrack();
+      updateShopOnScroll();
+    });
+    window.addEventListener("load", () => {
+      measureShopTrack();
+      updateShopOnScroll();
+    });
+
+    if (shopViewport) {
+      shopViewport.addEventListener(
+        "mousemove",
+        (e) => {
+          const r = shopViewport.getBoundingClientRect();
+          const nx = (e.clientX - r.left) / r.width - 0.5;
+          const ny = (e.clientY - r.top) / r.height - 0.5;
+          rigTiltY = nx * 9;
+          rigTiltX = -ny * 7;
+          updateShopOnScroll();
+        },
+        { passive: true }
+      );
+      shopViewport.addEventListener("mouseleave", () => {
+        rigTiltX = 0;
+        rigTiltY = 0;
+        updateShopOnScroll();
+      });
+    }
+
+    // Clickable left step cards smoothly scroll to that build stage
+    shopStepCards.forEach((card, idx) => {
+      card.addEventListener("click", () => {
+        measureShopTrack();
+        const stepP = idx / Math.max(1, shopStepCards.length - 1);
+        const destY = shopTrackTop + stepP * shopScrollable;
+        smoothScrollTo(destY);
+      });
+    });
+
+    measureShopTrack();
+    updateShopOnScroll();
   }
 })();

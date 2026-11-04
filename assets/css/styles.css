@@ -4271,11 +4271,10 @@ body.has-mouse-moved .cursor-dot {
 
 .shop-3d-pedestal {
   position: absolute;
-  inset: 24px;
-  border-radius: 32px;
-  background: rgba(0, 0, 0, 0.82);
-  transform: translate3d(0, 28px, -48px);
-  filter: blur(28px);
+  inset: 10px;
+  border-radius: 36px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, rgba(229, 9, 20, 0.14) 45%, transparent 72%);
+  transform: translate3d(0, 28px, -40px);
   pointer-events: none;
 }
 
@@ -4285,6 +4284,16 @@ body.has-mouse-moved .cursor-dot {
   transform-style: preserve-3d;
   pointer-events: none;
   will-change: transform, opacity;
+}
+
+#shop-layer-hero,
+#shop-sku-1,
+#shop-sku-2,
+#shop-sku-3,
+#shop-floating-seo,
+#shop-floating-buybox,
+#shop-layer-channels {
+  opacity: 0;
 }
 
 /* LAYER 01: Base Storefront Chassis */
