@@ -556,7 +556,7 @@
             <div class="shop-builder-heading">
               <div class="hero-badge-pill">
                 <span class="badge-dot"></span>
-                <span>Scroll-Driven 3D Storefront Architecture</span>
+                <span>Full-Viewport 3D Storefront Architecture</span>
               </div>
               <h2 class="section-title">Watch Your 3D Shop <span class="text-crimson">Assemble on Scroll.</span></h2>
             </div>
@@ -564,7 +564,7 @@
             <!-- Live Build Completion Readout -->
             <div class="shop-build-meter">
               <div class="shop-build-meter__top">
-                <span class="shop-build-meter__label" id="shop-stage-badge">STAGE 01 / BLUEPRINT CHASSIS</span>
+                <span class="shop-build-meter__label" id="shop-stage-badge">STAGE 01 / 3D STOREFRONT FOUNDATION</span>
                 <strong class="shop-build-meter__pct" id="shop-build-pct">12%</strong>
               </div>
               <div class="shop-build-meter__bar">
@@ -573,60 +573,54 @@
             </div>
           </div>
 
-          <!-- Main Split Stage: Left 5-Stage Construction HUD + Right 3D Assembling Storefront -->
+          <!-- Horizontal 5-Stage Interactive Progress Strip (Full-Width Top Bar) -->
+          <div class="shop-steps-hud" role="tablist" aria-label="3D Store Setup Stages">
+
+            <button type="button" class="shop-step-card is-active" data-shop-step="0">
+              <span class="shop-step-card__num">01</span>
+              <div class="shop-step-card__body">
+                <strong>Storefront Chassis</strong>
+              </div>
+              <span class="shop-step-card__status">LOCKED</span>
+            </button>
+
+            <button type="button" class="shop-step-card" data-shop-step="1">
+              <span class="shop-step-card__num">02</span>
+              <div class="shop-step-card__body">
+                <strong>Canopy &amp; A+ Hero</strong>
+              </div>
+              <span class="shop-step-card__status">BUILD</span>
+            </button>
+
+            <button type="button" class="shop-step-card" data-shop-step="2">
+              <span class="shop-step-card__num">03</span>
+              <div class="shop-step-card__body">
+                <strong>3D Product Shelf</strong>
+              </div>
+              <span class="shop-step-card__status">BUILD</span>
+            </button>
+
+            <button type="button" class="shop-step-card" data-shop-step="3">
+              <span class="shop-step-card__num">04</span>
+              <div class="shop-step-card__body">
+                <strong>Buy-Box &amp; 13-Tag SEO</strong>
+              </div>
+              <span class="shop-step-card__status">BUILD</span>
+            </button>
+
+            <button type="button" class="shop-step-card" data-shop-step="4">
+              <span class="shop-step-card__num">05</span>
+              <div class="shop-step-card__body">
+                <strong>4-Channel + VA Live</strong>
+              </div>
+              <span class="shop-step-card__status">LIVE</span>
+            </button>
+
+          </div>
+
+          <!-- Full-Viewport 3D Assembling E-Commerce Storefront -->
           <div class="shop-builder-stage">
 
-            <!-- Left Column: Interactive 5-Step Construction Sequencer -->
-            <div class="shop-steps-hud" role="tablist" aria-label="3D Store Setup Stages">
-
-              <button type="button" class="shop-step-card is-active" data-shop-step="0">
-                <span class="shop-step-card__num">01</span>
-                <div class="shop-step-card__body">
-                  <strong>3D Storefront Foundation &amp; Taxonomy</strong>
-                  <p>Category tree, brand registry chassis, and compliant catalog grid lock into place.</p>
-                </div>
-                <span class="shop-step-card__status">LOCKED</span>
-              </button>
-
-              <button type="button" class="shop-step-card" data-shop-step="1">
-                <span class="shop-step-card__num">02</span>
-                <div class="shop-step-card__body">
-                  <strong>Brand Canopy &amp; A+ Hero Billboard</strong>
-                  <p>Navigation bar, search indexing header, and high-converting hero campaign banner drop in.</p>
-                </div>
-                <span class="shop-step-card__status">BUILD</span>
-              </button>
-
-              <button type="button" class="shop-step-card" data-shop-step="2">
-                <span class="shop-step-card__num">03</span>
-                <div class="shop-step-card__body">
-                  <strong>3D Product Shelf &amp; Variation Trees</strong>
-                  <p>Parent-child SKU cards, size/color swatches, and studio galleries snap into the 3D shelf.</p>
-                </div>
-                <span class="shop-step-card__status">BUILD</span>
-              </button>
-
-              <button type="button" class="shop-step-card" data-shop-step="3">
-                <span class="shop-step-card__num">04</span>
-                <div class="shop-step-card__body">
-                  <strong>Buy-Box Engine &amp; 13-Tag SEO Matrix</strong>
-                  <p>Conversion buy-box dock, backend search terms, and live velocity telemetry activate.</p>
-                </div>
-                <span class="shop-step-card__status">BUILD</span>
-              </button>
-
-              <button type="button" class="shop-step-card" data-shop-step="4">
-                <span class="shop-step-card__num">05</span>
-                <div class="shop-step-card__body">
-                  <strong>4-Channel Sync + Daily VA Operations</strong>
-                  <p>Amazon, Walmart, Etsy, TikTok Shop &amp; 07 daily Virtual Assistant workflows go live.</p>
-                </div>
-                <span class="shop-step-card__status">LIVE</span>
-              </button>
-
-            </div>
-
-            <!-- Right Column: True 3D Perspective Assembling E-Commerce Storefront -->
             <div class="shop-3d-viewport" id="shop-3d-viewport">
 
               <div class="shop-3d-rig" id="shop-3d-rig">
@@ -644,7 +638,7 @@
                     </div>
                     <div class="shop-chassis__url">
                       <i class="shop-url-lock"></i>
-                      <span>storefront://wig-wham.atelier/multi-channel-engine</span>
+                      <span>storefront://wig-wham.atelier/multi-channel-flagship-3d</span>
                     </div>
                     <span class="shop-chassis__status" id="shop-chassis-live-pill"><i></i> ASSEMBLING 3D SHOP</span>
                   </div>
@@ -666,12 +660,13 @@
                     </div>
                     <div class="shop-store-nav__pills">
                       <span class="is-on">Featured Flagship</span>
-                      <span>New Arrivals</span>
-                      <span>Bundles</span>
-                      <span>Brand Story</span>
+                      <span>Amazon A+</span>
+                      <span>Walmart Spec</span>
+                      <span>Etsy 13-Tag</span>
+                      <span>TikTok 9:16</span>
                     </div>
                     <div class="shop-store-nav__search">
-                      <span>Search 240+ Indexed SKUs...</span>
+                      <span>Search 240+ Indexed Multi-Variant SKUs...</span>
                       <em>⌕</em>
                     </div>
                   </div>
@@ -682,26 +677,33 @@
                     <div class="shop-hero-banner__scrim"></div>
                     <div class="shop-hero-banner__content">
                       <span class="shop-hero-banner__tag">A+ BRAND STOREFRONT MODULE // 01</span>
-                      <h3>Precision-Built Multi-Channel Flagship Store.</h3>
-                      <p>Engineered for high organic rank, parent-child SKU clarity, and instant mobile conversion.</p>
+                      <h3>Precision-Built Multi-Channel Flagship Storefront.</h3>
+                      <p>Engineered for high organic rank, parent-child SKU clarity, and instant mobile conversion across all 4 marketplaces.</p>
                     </div>
-                    <div class="shop-hero-banner__stat">
-                      <span>CONVERSION LIFT</span>
-                      <strong>+42.8%</strong>
+                    <div class="shop-hero-banner__metrics">
+                      <div class="shop-hero-banner__stat">
+                        <span>CONVERSION LIFT</span>
+                        <strong>+42.8%</strong>
+                      </div>
+                      <div class="shop-hero-banner__stat">
+                        <span>LISTING QUALITY</span>
+                        <strong>99.4%</strong>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <!-- =========================================================
-                     LAYER 03: 3D PRODUCT SHOWCASE SHELF (3 FLOATING 3D SKU CARDS)
+                     LAYER 03 & 04: FULL-WIDTH 4-COLUMN 3D PRODUCT SHELF + BUY-BOX DOCK
+                     (Zero Overlapping Cards — Clean 4-Column Architectural Layout!)
                      ========================================================= -->
                 <div class="shop-layer shop-layer--products" id="shop-layer-products">
 
-                  <!-- 3D Product Card 01 -->
+                  <!-- Col 1: 3D Product Card 01 -->
                   <div class="shop-sku-card shop-sku-card--1" id="shop-sku-1">
                     <div class="shop-sku-card__media">
                       <img src="assets/images/hs-1-storefront.jpg" alt="Flagship Studio Headphones" />
-                      <span class="shop-sku-card__badge">BESTSELLER · A+</span>
+                      <span class="shop-sku-card__badge">01 / AMAZON A+</span>
                     </div>
                     <div class="shop-sku-card__info">
                       <div class="shop-sku-card__meta">
@@ -722,11 +724,11 @@
                     </div>
                   </div>
 
-                  <!-- 3D Product Card 02 -->
+                  <!-- Col 2: 3D Product Card 02 -->
                   <div class="shop-sku-card shop-sku-card--2" id="shop-sku-2">
                     <div class="shop-sku-card__media">
                       <img src="assets/images/mp-etsy-artisan.jpg" alt="Artisan Ceramic Vessel Set" />
-                      <span class="shop-sku-card__badge shop-sku-card__badge--gold">13-TAG SEO</span>
+                      <span class="shop-sku-card__badge shop-sku-card__badge--gold">02 / ETSY 13-TAG</span>
                     </div>
                     <div class="shop-sku-card__info">
                       <div class="shop-sku-card__meta">
@@ -746,11 +748,11 @@
                     </div>
                   </div>
 
-                  <!-- 3D Product Card 03 -->
+                  <!-- Col 3: 3D Product Card 03 -->
                   <div class="shop-sku-card shop-sku-card--3" id="shop-sku-3">
                     <div class="shop-sku-card__media">
                       <img src="assets/images/mp-tiktok-viral.jpg" alt="Botanical Serum Drop" />
-                      <span class="shop-sku-card__badge">9:16 VIRAL</span>
+                      <span class="shop-sku-card__badge">03 / TIKTOK 9:16</span>
                     </div>
                     <div class="shop-sku-card__info">
                       <div class="shop-sku-card__meta">
@@ -770,81 +772,74 @@
                     </div>
                   </div>
 
-                </div>
-
-                <!-- =========================================================
-                     LAYER 04: 3D FLOATING BUY-BOX CHECKOUT DOCK & SEO HUD
-                     ========================================================= -->
-                <div class="shop-layer shop-layer--buybox" id="shop-layer-buybox">
-
-                  <!-- Left Floating SEO & Variation Indexing HUD -->
-                  <div class="shop-floating-seo" id="shop-floating-seo">
-                    <div class="shop-floating-seo__head">
-                      <span class="shop-seo-dot"></span>
-                      <strong>SEARCH &amp; VARIATION ENGINE</strong>
-                    </div>
-                    <div class="shop-floating-seo__tags">
-                      <span>✓ 250-Byte Backend Keywords</span>
-                      <span>✓ Parent-Child Tree Synced</span>
-                      <span>✓ Walmart LQS 99.2%</span>
-                      <span>✓ Etsy 13/13 Tags Active</span>
-                    </div>
-                  </div>
-
-                  <!-- Right Floating 3D Buy-Box & Conversion Module -->
-                  <div class="shop-floating-buybox" id="shop-floating-buybox">
-                    <div class="shop-buybox__top">
-                      <span>BUY-BOX &amp; CHECKOUT ENGINE</span>
-                      <strong>99.4% WON</strong>
-                    </div>
-                    <div class="shop-buybox__price">
-                      <div>
-                        <small>ACTIVE CART VALUE</small>
-                        <strong>$441.00</strong>
+                  <!-- Col 4: Dedicated 3D Buy-Box Checkout & 13-Tag SEO Command Column -->
+                  <div class="shop-command-col" id="shop-command-col">
+                    <div class="shop-floating-seo" id="shop-floating-seo">
+                      <div class="shop-floating-seo__head">
+                        <span class="shop-seo-dot"></span>
+                        <strong>SEARCH &amp; VARIATION ENGINE</strong>
                       </div>
-                      <span class="shop-buybox__vel">+184 Orders / Day</span>
+                      <div class="shop-floating-seo__tags">
+                        <span>✓ 250-Byte Backend Keywords</span>
+                        <span>✓ Parent-Child Tree Synced</span>
+                        <span>✓ Walmart LQS 99.2% · Etsy 13/13</span>
+                      </div>
                     </div>
-                    <div class="shop-buybox__btn">
-                      <span>Instant 1-Click Checkout Ready</span>
-                      <em>→</em>
+
+                    <div class="shop-floating-buybox" id="shop-floating-buybox">
+                      <div class="shop-buybox__top">
+                        <span>BUY-BOX &amp; CHECKOUT</span>
+                        <strong>99.4% WON</strong>
+                      </div>
+                      <div class="shop-buybox__price">
+                        <div>
+                          <small>ACTIVE BUNDLE VALUE</small>
+                          <strong>$441.00</strong>
+                        </div>
+                        <span class="shop-buybox__vel">+184 Orders / Day</span>
+                      </div>
+                      <div class="shop-buybox__btn">
+                        <span>Instant 1-Click Checkout Ready</span>
+                        <em>→</em>
+                      </div>
                     </div>
                   </div>
 
                 </div>
 
                 <!-- =========================================================
-                     LAYER 05: 3D MULTI-CHANNEL SATELLITE NODES + VA CROWN
+                     LAYER 05: FULL-WIDTH 5-CHANNEL SYNC DOCK BAR (BOTTOM OF 3D SHOP)
                      ========================================================= -->
                 <div class="shop-layer shop-layer--channels" id="shop-layer-channels">
-                  <div class="shop-sat shop-sat--amz">
+                  <div class="shop-sat">
                     <span class="shop-sat__dot"></span>
                     <div>
-                      <small>01 / CHANNEL</small>
-                      <strong>Amazon Storefront</strong>
+                      <small>01 / MARKETPLACE</small>
+                      <strong>Amazon Storefront &amp; A+</strong>
                     </div>
                   </div>
 
-                  <div class="shop-sat shop-sat--wmt">
+                  <div class="shop-sat">
                     <span class="shop-sat__dot"></span>
                     <div>
-                      <small>02 / CHANNEL</small>
+                      <small>02 / MARKETPLACE</small>
                       <strong>Walmart Retail Spec</strong>
                     </div>
                   </div>
 
-                  <div class="shop-sat shop-sat--ets">
+                  <div class="shop-sat">
                     <span class="shop-sat__dot"></span>
                     <div>
-                      <small>03 / CHANNEL</small>
-                      <strong>Etsy 13-Tag Shop</strong>
+                      <small>03 / MARKETPLACE</small>
+                      <strong>Etsy 13-Tag Discovery</strong>
                     </div>
                   </div>
 
-                  <div class="shop-sat shop-sat--tts">
+                  <div class="shop-sat">
                     <span class="shop-sat__dot"></span>
                     <div>
-                      <small>04 / CHANNEL</small>
-                      <strong>TikTok Shop 9:16</strong>
+                      <small>04 / MARKETPLACE</small>
+                      <strong>TikTok Shop 9:16 Feed</strong>
                     </div>
                   </div>
 
