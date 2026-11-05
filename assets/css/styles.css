@@ -5045,20 +5045,278 @@ body.has-mouse-moved .cursor-dot {
 }
 
 /* Remove AI-template indicator dots, cursor dot & generic pill clusters */
+.nav-morph,
 .badge-dot,
 .nav-morph__dot,
 .cursor-dot,
 #cursor-dot,
 .pod-card__pills,
 .mp-chapter__pills,
-.arena-live-dot i,
-.mp-live-indicator i,
-.mosaic-live i,
+.arena-live-dot,
+.mp-live-indicator,
+.mosaic-live,
+.h-slide__live-hud,
+.hud-bars,
+.arena-core-inline,
+.we-window__badge,
+.orbit-badge,
+.gyro-ring,
+.road-anim-svg,
+.svg-loop,
+.shop-chassis__dots,
 .shop-chassis__status i,
 .shop-sat__dot,
 .shop-seo-dot,
 .shop-url-lock {
   display: none !important;
+}
+
+/* ==========================================================================
+   HUMAN EDITORIAL & ARCHITECTURAL STUDIO DESIGN OVERRIDES
+   (Eliminates AI-template pill bubbles, neon gradients, spinning conic borders,
+    and half-red headings in favor of bespoke Swiss/Awwwards studio craft)
+   ========================================================================== */
+
+/* 1. Full-Width Architectural Top Header (Logo Left · Editorial Links Center · CTA Right) */
+.site-header,
+body.is-subpage .site-header,
+.subpage-header {
+  top: 0 !important;
+  padding: 0.85rem 0 !important;
+  background: rgba(6, 6, 8, 0.92) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.header-inner {
+  width: min(1400px, calc(100% - 3rem)) !important;
+  margin-inline: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 2rem !important;
+}
+
+.header-center {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 2.5rem !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.header-brand {
+  padding-right: 0 !important;
+  border-right: none !important;
+}
+
+.header-brand img {
+  height: 28px !important;
+  width: auto !important;
+}
+
+.header-nav {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1.65rem !important;
+  margin-inline: auto !important;
+}
+
+.header-nav a {
+  position: relative !important;
+  padding: 0.35rem 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.86rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  color: rgba(247, 244, 237, 0.68) !important;
+  transition: color 0.2s ease !important;
+}
+
+.header-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1.5px;
+  background: var(--text-white);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.header-nav a:hover,
+.header-nav a.is-current {
+  color: var(--text-white) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.header-nav a:hover::after,
+.header-nav a.is-current::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* 2. Bespoke Studio Buttons (No Spinning Neon Conic Borders or Pill Glows) */
+.btn-atelier {
+  border-radius: 6px !important;
+  padding: 0.72rem 1.35rem !important;
+  background: var(--text-white) !important;
+  color: #070709 !important;
+  border: 1px solid var(--text-white) !important;
+  box-shadow: none !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease !important;
+}
+
+.btn-atelier::before,
+.btn-atelier::after {
+  display: none !important;
+}
+
+.btn-atelier:hover {
+  background: var(--crimson-bright) !important;
+  border-color: var(--crimson-bright) !important;
+  color: var(--text-white) !important;
+  box-shadow: none !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn-atelier em {
+  width: auto !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  font-size: 0.88rem !important;
+}
+
+.btn-outline-atelier {
+  border-radius: 6px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: transparent !important;
+}
+
+/* 3. Clean Editorial Eyebrows & Natural Typography (No Pill Bubbles or Half-Red Headings) */
+.hero-badge-pill {
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-left: 2px solid var(--crimson-bright) !important;
+  padding: 0.1rem 0 0.1rem 0.75rem !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--champagne) !important;
+  box-shadow: none !important;
+}
+
+.hero-circle-wrap,
+.we-word--accent {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  color: var(--champagne) !important;
+  padding: 0 !important;
+}
+
+.section-title,
+.subpage-display,
+.hero-display,
+.editorial-contact__title {
+  font-weight: 600 !important;
+  letter-spacing: -0.035em !important;
+}
+
+.section-title .text-crimson,
+.subpage-display .text-crimson,
+.editorial-contact__title .text-crimson {
+  color: var(--champagne) !important;
+  font-weight: 400 !important;
+}
+
+/* 4. Architectural Card Geometry & Matte Surfaces (No Over-Rounded 30px Neon Boxes) */
+.h-card,
+.pod-card,
+.comparison-card,
+.subpage-metric-card,
+.channel-direct-card,
+.mosaic-card,
+.h-slide__card,
+.arena-monolith,
+.road-node,
+.mp-wipe-stage,
+.booking-agenda-card,
+.booking-form,
+.editorial-portrait,
+.about-visual-main,
+.about-visual-float,
+.cube-face {
+  border-radius: 10px !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5) !important;
+}
+
+.h-card--1,
+.h-card--2,
+.h-card--3,
+.h-card--4,
+.h-card--5 {
+  transform: none !important;
+}
+
+.comparison-card--new {
+  background: #0D0E13 !important;
+  border: 1px solid rgba(232, 223, 202, 0.28) !important;
+}
+
+.pod-card__tag,
+.pod-card__tag--gold,
+.comparison-card__badge,
+.comparison-card__badge--live,
+.arena-pill,
+.arena-pill--gold,
+.mosaic-badge,
+.mp-wipe-badge,
+.h-slide__tag,
+.shop-sku-card__badge,
+.shop-sku-card__badge--gold {
+  border-radius: 4px !important;
+  background: rgba(10, 11, 15, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: var(--champagne) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  box-shadow: none !important;
+}
+
+.cap-pill,
+.time-pill,
+.date-card,
+.arena-tab,
+.mp-q-btn,
+.shop-step-card {
+  border-radius: 6px !important;
+}
+
+.atelier-submit-bar {
+  border-radius: 6px !important;
 }
 
 .comparison-list strong {
